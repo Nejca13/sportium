@@ -1,4 +1,4 @@
-from beanie import Document
+from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List
 from datetime import datetime
@@ -8,6 +8,7 @@ class User(Document):
     # Información básica
     name: str
     last_name: str
+    img: Optional[str] = Field(None)
     email: EmailStr
     password: str
     phone_number: Optional[str] = Field(None)  # Validación de teléfono opcional
@@ -32,6 +33,7 @@ class User(Document):
             "example": {
                 "name": "Nicolás",
                 "last_name": "Contreras",
+                "img": "https://example.com/profile.jpg",
                 "email": "nico@example.com",
                 "password": "password_here",
                 "phone_number": "+5491123456789",
@@ -48,6 +50,7 @@ class User(Document):
 class UserCreate(BaseModel):
     name: str
     last_name: str
+    img: Optional[str]
     email: EmailStr
     password: str
     phone_number: Optional[str]
@@ -56,8 +59,9 @@ class UserCreate(BaseModel):
 
 # Modelo para respuesta pública
 class UserResponse(BaseModel):
-    id: str
+    id: PydanticObjectId
     name: str
+    img: Optional[str]
     last_name: str
     email: EmailStr
     phone_number: Optional[str]
@@ -72,6 +76,7 @@ class UserResponse(BaseModel):
 class UserUpdate(BaseModel):
     name: Optional[str]
     last_name: Optional[str]
+    img: Optional[str]
     email: Optional[EmailStr]
     phone_number: Optional[str]
     preferred_sports: Optional[List[str]]

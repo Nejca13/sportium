@@ -10,6 +10,7 @@ class Court(Document):
     )
     location: Optional[str] = Field(None, description="Ubicación de la cancha")
     is_active: bool = Field(default=True)
+    image: Optional[str] = Field(None, description="URL de la imagen de la cancha")
 
     class Settings:
         name = "courts"
@@ -19,6 +20,7 @@ class Court(Document):
             "example": {
                 "name": "Cancha 1",
                 "sport_type": "futbol",
+                "image": "https://example.com/cancha1.jpg",
                 "location": "Av. Siempre Viva 123",
                 "is_active": True,
             }

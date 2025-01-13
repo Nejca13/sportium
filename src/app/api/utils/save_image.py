@@ -4,7 +4,7 @@ from uuid import uuid4
 from PIL import Image
 from io import BytesIO
 
-from ..core.db import BASE_URL
+from app.api.init_db import BASE_URL
 
 
 async def save_image(file: UploadFile, folder: str) -> str:
@@ -14,6 +14,10 @@ async def save_image(file: UploadFile, folder: str) -> str:
     :param folder: Carpeta donde se guardará, relativa a media/.
     :return: URL pública de la imagen.
     """
+    # Verificar el formato de la imagen
+    if file.content_type not in ["image/jpeg", "image/png", "image/webp"]:
+        raise ValueError("Formato de imagen no permitido.")
+
     # Crear la carpeta si no existe
     folder_path = os.path.join("media", folder)
     os.makedirs(folder_path, exist_ok=True)
