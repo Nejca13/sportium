@@ -42,7 +42,7 @@ async def login(
         )
 
     # Generar un JWT
-    access_token = create_access_token(data={"sub": user.email, "role": user.rol})
+    access_token = create_access_token(data={"sub": user.email, "role": user.role})
 
     # Establecer la cookie con el JWT
     response.set_cookie(
