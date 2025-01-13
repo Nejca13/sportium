@@ -16,7 +16,7 @@ class Court(Document):
         name = "courts"
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "name": "Cancha 1",
                 "sport_type": "futbol",

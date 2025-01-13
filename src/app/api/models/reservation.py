@@ -25,7 +25,7 @@ class Reservation(Document):
         name = "reservations"  # Nombre de la colección en MongoDB
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "user_id": "64b2f437a8d4f5c9e8a73e12",
                 "court_id": "64b2f437a8d4f5c9e8a73e34",
