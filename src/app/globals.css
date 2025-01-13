@@ -9,6 +9,11 @@
   margin: 0;
 }
 
+body {
+  background: var(--background);
+  position: relative;
+}
+
 a {
   color: inherit;
   text-decoration: none;
