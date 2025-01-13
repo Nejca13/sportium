@@ -1,5 +1,6 @@
 from datetime import datetime
-from fastapi import APIRouter, Form, HTTPException, UploadFile
+import json
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
 from app.api.models.user import User, UserCreate, UserResponse
 from app.api.utils.hash_password.def_hash_password import hash_password
@@ -22,10 +23,11 @@ async def get_user(user_id: str):
 
 
 @router.post("/", response_model=UserResponse)
-async def create_user(user: UserCreate, image: UploadFile = Form(...)):
+async def create_user(user: str = Form(...), image: UploadFile = File(...)):
     # Convierte UserCreate a un diccionario y filtra campos desconocidos
-    user_data = user.dict()
 
+    user_data = json.loads(user)
+    user = UserCreate(**user_data)
     # Verificar que el email no exista
     existing_user = await User.find_one(User.email == user.email)
     if existing_user:
@@ -43,7 +45,7 @@ async def create_user(user: UserCreate, image: UploadFile = Form(...)):
 
     # Guardar la imagen en el servidor
     folder = f"users/{user_data['email']}"
-    user_data["img"] = save_image(image, folder)
+    user_data["img"] = await save_image(image, folder)
 
     # Crea el usuario en la base de datos
     try:

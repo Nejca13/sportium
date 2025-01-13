@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from app.api.init_db import init_db
 from .routers.users import router as usuarios
 from .routers.login import router as login
@@ -14,3 +15,6 @@ async def on_startup():
 
 app.include_router(usuarios, tags=["Usuarios"])  # Incluir el router de usuarios
 app.include_router(login, tags=["Login"])
+
+
+app.mount("/media", StaticFiles(directory="media"), name="media")
