@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+from beanie import PydanticObjectId
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
 from app.api.models.user import User, UserCreate, UserResponse
@@ -16,9 +17,9 @@ async def get_users():
     return users
 
 
-@router.get("/{user_id}", response_model=UserResponse)
+@router.get("/{user_id}/", response_model=UserResponse)
 async def get_user(user_id: str):
-    user = await User.find_one(User.id == user_id)
+    user = await User.find_one(User.id == PydanticObjectId(user_id))
     return user
 
 
