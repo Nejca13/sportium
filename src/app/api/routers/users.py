@@ -1,9 +1,11 @@
 from datetime import datetime
 import json
+from typing import Optional
 from beanie import PydanticObjectId
+from click import Option
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
-from app.api.models.user import User, UserCreate, UserResponse
+from app.api.models.user import User, UserCreate, UserResponse, UserUpdate
 from app.api.utils.hash_password.def_hash_password import hash_password
 from app.api.utils.save_image import save_image
 
@@ -56,3 +58,53 @@ async def create_user(user: str = Form(...), image: UploadFile = File(...)):
         raise HTTPException(
             status_code=400, detail=f"Error al crear el usuario: {str(e)}"
         )
+
+
+from fastapi import HTTPException, UploadFile, File, Form
+from beanie import PydanticObjectId
+from typing import Any
+
+
+@router.patch("/{user_id}/", response_model=UserResponse)
+async def update_user(
+    user_id: str, user: str = Form(...), image: UploadFile = File(None)
+):
+    # Convierte el ID del usuario a PydanticObjectId
+    try:
+        user_data = json.loads(user)
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="Datos de usuario inválidos")
+
+    user = UserUpdate(**user_data)
+
+    try:
+        user_id = PydanticObjectId(user_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="ID de usuario inválido")
+
+    # Busca el usuario en la base de datos
+    existing_user = await User.get(user_id)
+    if not existing_user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+    # Actualiza solo los campos enviados
+    update_data = user.dict(exclude_unset=True)  # Excluye campos no enviados
+    if image:
+        folder = f"users/{existing_user.email}"
+        update_data["img"] = await save_image(image, folder)
+
+    for field, value in update_data.items():
+        setattr(existing_user, field, value)
+
+    # Actualiza la fecha de modificación
+    existing_user.updated_at = datetime.utcnow()
+
+    # Guarda los cambios en la base de datos
+    try:
+        await existing_user.save()
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error al actualizar el usuario: {str(e)}"
+        )
+
+    return existing_user

@@ -74,12 +74,12 @@ class UserResponse(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    name: Optional[str]
-    last_name: Optional[str]
-    img: Optional[str]
-    email: Optional[EmailStr]
-    phone_number: Optional[str]
-    preferred_sports: Optional[List[str]]
-    is_active: Optional[bool]
-    is_verified: Optional[bool]
-    password: Optional[str]
+    name: Optional[str] = Field(None)
+    last_name: Optional[str] = Field(None)
+    img: Optional[str] = Field(None)
+    email: Optional[EmailStr] = Field(None)
+    phone_number: Optional[str] = Field(None)
+    preferred_sports: Optional[List[str]] = Field(default_factory=list)
+    is_active: Optional[bool] = Field(None)
+    is_verified: Optional[bool] = Field(None)
+    password: Optional[str] = Field(None)
