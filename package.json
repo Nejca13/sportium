@@ -1,0 +1,26 @@
+{
+  "name": "sportium",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "fastapi-dev": "./start_fastapi.sh",
+    "vps_start": "./start_vps.sh",
+    "next-dev": "next dev",
+    "dev": "pnpm run fastapi-dev next-dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prod": "pnpm run fastapi-dev start",
+    "vps": "concurrently \"pnpm run vps_start\" \"pnpm start\""
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "eslint": "latest",
+    "prettier": "latest",
+    "concurrently": "latest"
+  }
+}
