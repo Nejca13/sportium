@@ -1,0 +1,80 @@
+from beanie import Document
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional, List
+from datetime import datetime
+
+
+class User(Document):
+    # Información básica
+    name: str
+    last_name: str
+    email: EmailStr
+    password: str
+    phone_number: Optional[str] = Field(None)  # Validación de teléfono opcional
+
+    # Rol y preferencias
+    role: str = Field("user", description="Puede ser 'user', 'admin'")
+    preferred_sports: Optional[List[str]] = Field(
+        default_factory=list
+    )  # Ejemplo: ['futbol', 'padel']
+
+    # Auditoría
+    is_active: bool = Field(default=True)
+    is_verified: bool = Field(default=False)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: Optional[datetime] = Field(default=None)
+
+    class Settings:
+        name = "users"  # Nombre de la colección en MongoDB
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "name": "Nicolás",
+                "last_name": "Contreras",
+                "email": "nico@example.com",
+                "password": "password_here",
+                "phone_number": "+5491123456789",
+                "role": "user",
+                "preferred_sports": ["futbol", "padel"],
+                "is_active": True,
+                "is_verified": False,
+                "created_at": "2025-01-13T00:00:00Z",
+            }
+        }
+
+
+# Modelo para creación de usuarios (sin password)
+class UserCreate(BaseModel):
+    name: str
+    last_name: str
+    email: EmailStr
+    password: str
+    phone_number: Optional[str]
+    preferred_sports: Optional[List[str]] = Field(default_factory=list)
+
+
+# Modelo para respuesta pública
+class UserResponse(BaseModel):
+    id: str
+    name: str
+    last_name: str
+    email: EmailStr
+    phone_number: Optional[str]
+    preferred_sports: List[str]
+    is_active: bool
+    is_verified: bool
+
+    class Config:
+        from_attributes = True
+
+
+class UserUpdate(BaseModel):
+    name: Optional[str]
+    last_name: Optional[str]
+    email: Optional[EmailStr]
+    phone_number: Optional[str]
+    preferred_sports: Optional[List[str]]
+    is_active: Optional[bool]
+    is_verified: Optional[bool]
+    password: Optional[str]
