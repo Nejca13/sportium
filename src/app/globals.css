@@ -1,6 +1,6 @@
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --green: #00b04b;
 }
 
 * {
@@ -12,6 +12,7 @@
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 ul {
