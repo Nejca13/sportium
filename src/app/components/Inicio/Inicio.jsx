@@ -4,6 +4,7 @@ import styles from './Inicio.module.css'
 import image_one from '@/app/assets/images/Slider_image/paleta.webp'
 import image_two from '@/app/assets/images/Slider_image/cancha.webp'
 import image_three from '@/app/assets/images/Slider_image/hombre.webp'
+import FormReservas from './FormReservas/FormReservas'
 
 const Inicio = () => {
   const images = [image_three, image_one, image_two]
@@ -44,8 +45,11 @@ const Inicio = () => {
         />
       ))}
       <div className={styles.content}>
-        <h1>Sportium Canchas de Futbol & Padel.</h1>
-        <p>Encuentra las canchas disponibles y reservalas al instante.</p>
+        <div className={styles.title}>
+          <h1>Sportium Canchas de Futbol & Padel.</h1>
+          <p>Encuentra las canchas disponibles y reservalas al instante.</p>
+        </div>
+        <FormReservas />
       </div>
     </section>
   )

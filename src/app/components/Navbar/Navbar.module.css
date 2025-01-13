@@ -109,6 +109,9 @@
 }
 
 @media (max-width: 768px) {
+  .content_banner {
+    padding: 10px;
+  }
   .nav {
     padding: 20px;
   }
