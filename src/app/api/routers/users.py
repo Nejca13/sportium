@@ -27,10 +27,12 @@ async def get_user(user_id: str):
 
 @router.post("/", response_model=UserResponse)
 async def create_user(user: str = Form(...), image: UploadFile = File(...)):
-    # Convierte UserCreate a un diccionario y filtra campos desconocidos
 
+    # Convierte UserCreate a un diccionario y filtra campos desconocidos
     user_data = json.loads(user)
-    user = UserCreate(**user_data)
+
+    user = User(**user_data)
+
     # Verificar que el email no exista
     existing_user = await User.find_one(User.email == user.email)
     if existing_user:
