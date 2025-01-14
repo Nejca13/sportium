@@ -11,6 +11,7 @@ class Court(Document):
     location: Optional[str] = Field(None, description="Ubicación de la cancha")
     is_active: bool = Field(default=True)
     image: Optional[str] = Field(None, description="URL de la imagen de la cancha")
+    price: Optional[int] = Field(None, description="Precio de la cancha")
 
     class Settings:
         name = "courts"
@@ -23,5 +24,6 @@ class Court(Document):
                 "image": "https://example.com/cancha1.jpg",
                 "location": "Av. Siempre Viva 123",
                 "is_active": True,
+                "price": 50,
             }
         }
