@@ -27,3 +27,9 @@ async def create_court(court: str = Form(...), image: UploadFile = File(...)):
 
     # Retornar la cancha guardada
     return new_court
+
+
+@router.get("/get-courts/")
+async def get_courts():
+    courts = await Court.find().to_list()
+    return courts
