@@ -13,6 +13,7 @@ const StepOne = ({ setStep }) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     const formData = Object.fromEntries(new FormData(e.target))
+    console.log(formData)
     const data = { ...currentForm, ...formData }
     setCurrentForm(data)
     setStep(2)

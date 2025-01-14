@@ -26,7 +26,7 @@ export const register = async (data) => {
     if (!response.ok) {
       const error = await response.json()
       console.log('Error response:', error)
-      return { success: false, message: error.detail || 'Unknown error' }
+      return { success: false, message: error || 'Unknown error' }
     }
 
     const data = await response.json()
