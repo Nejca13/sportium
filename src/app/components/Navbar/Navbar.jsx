@@ -9,10 +9,16 @@ import Image from 'next/image'
 import Menu from '@/app/assets/icons/Menu'
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
-  const [showMenu, setShowMenu] = useState(false)
   const pathname = usePathname()
+  const [showMenu, setShowMenu] = useState(false)
+
+  if (pathname === '/register' || pathname === '/login') {
+    return null
+  }
+
   return (
     !pathname.includes('admin') && (
       <header className={styles.header}>

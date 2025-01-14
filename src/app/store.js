@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand-persist'
+import { persist } from 'zustand/middleware'
 
 const useStore = create(
   persist(
@@ -7,7 +7,12 @@ const useStore = create(
       // usuario
       currentUser: null,
       setCurrentUser: (user) => set({ currentUser: user }),
-      clearCurrentUsetr: () => set({ currentUser: null }),
+      clearCurrentUser: () => set({ currentUser: null }),
+
+      // Formulario de registro
+      currentForm: null,
+      setCurrentForm: (formData) => set({ currentForm: formData }),
+      clearCurrentForm: () => set({ currentForm: null }),
     }),
     { name: 'store' }
   )
