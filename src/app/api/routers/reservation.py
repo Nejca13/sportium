@@ -1,13 +1,18 @@
 # Modelo para los datos del ítem
+from hmac import new
 import os
 from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException
 import mercadopago
 from pydantic import BaseModel, Field
 
-from app.api.models.court import Court
-from app.api.models.reservation import ReservationCreate
-from app.api.models.user import User
+from app.api.models.court import Court, CourtResponse
+from app.api.models.reservation import (
+    Reservation,
+    ReservationCreate,
+    ReservationResponse,
+)
+from app.api.models.user import User, UserCreate, UserResponse
 from app.api.utils.fprint import fprint
 
 sdk = mercadopago.SDK(os.getenv("MERCADOPAGO_ACCESS_TOKEN"))
@@ -19,16 +24,12 @@ router = APIRouter(
 
 
 # Modelo para las preferencias (opcionalmente con datos del comprador)
-class PreferenceRequest(BaseModel):
-    item: dict
-    payer_name: str = Field(None, example="Nico")
-    payer_email: str = Field(None, example="nico@example.com")
 
 
 @router.post("/create-reservation/")
-async def create_preference(reservation: PreferenceRequest):
+async def create_preference(reservation: ReservationCreate):
     # Crea la reserva en la base de datos (ejemplo, no implementado)
-    new_reservation = ReservationCreate(**reservation.item)
+    new_reservation = reservation
 
     user = await User.get(PydanticObjectId(new_reservation.user_id))
 
@@ -47,8 +48,33 @@ async def create_preference(reservation: PreferenceRequest):
         raise HTTPException(status_code=400, detail="Court has no price")
 
     # Guardar la reserva en la base de datos
-    fprint(new_reservation)
+
     try:
+        new_reservation = Reservation(
+            user=UserResponse(
+                id=user.id,
+                name=user.name,
+                img=user.img,
+                last_name=user.last_name,
+                email=user.email,
+                phone_number=user.phone_number,
+                preferred_sports=user.preferred_sports,
+                is_active=user.is_active,
+                is_verified=user.is_verified,
+            ),
+            court=CourtResponse(
+                id=court.id,
+                sport_type=court.sport_type,
+                image=court.image,
+                location=court.location,
+                is_active=court.is_active,
+                price=court.price,
+                name=court.name,
+            ),
+            date=new_reservation.date,
+            duration=new_reservation.duration,
+            status="pending",
+        )
         new_reservation = await new_reservation.create()
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error al crear la reserva. {e}")
@@ -66,7 +92,7 @@ async def create_preference(reservation: PreferenceRequest):
             }
         ],
         "payer": {
-            "id": new_reservation.user_id,
+            "id": str(new_reservation.user.id),
             "name": user.name,
             "email": user.email,
         },
@@ -76,7 +102,7 @@ async def create_preference(reservation: PreferenceRequest):
             "pending": "https://tuweb.com/pago-pendiente/",
         },
         "auto_return": "approved",
-        "external_reference": new_reservation.id,  # ID de la reserva (opcional)
+        "external_reference": str(new_reservation.id),  # ID de la reserva (opcional)
     }
     preference_response = sdk.preference().create(preference_data)
     if preference_response.get("status") != 201:
@@ -84,5 +110,10 @@ async def create_preference(reservation: PreferenceRequest):
 
     # URL para redirigir al usuario
     payment_url = preference_response["response"]["init_point"]
+
+    fprint(new_reservation)
+    new_reservation.id = str(new_reservation.id)
+
+    new_reservation = ReservationResponse(**new_reservation.dict())
 
     return {"reservation": new_reservation, "payment_url": payment_url}

@@ -1,6 +1,6 @@
 from typing import Optional
-from beanie import Document
-from pydantic import Field
+from beanie import Document, PydanticObjectId
+from pydantic import BaseModel, Field
 
 
 class Court(Document):
@@ -27,3 +27,16 @@ class Court(Document):
                 "price": 50,
             }
         }
+
+
+class CourtResponse(BaseModel):
+    id: PydanticObjectId
+    name: str
+    sport_type: str
+    image: str
+    location: Optional[str]
+    is_active: bool
+    price: Optional[int]
+
+    class Config:
+        from_attributes = True

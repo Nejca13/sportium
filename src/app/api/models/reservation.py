@@ -3,12 +3,14 @@ from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
 
+from app.api.models.court import Court, CourtResponse
+from app.api.models.user import UserResponse
+
 
 class Reservation(Document):
     # Relación con usuario y cancha
-    user_id: str = Field(..., description="ID del usuario que realiza la reserva")
-    court_id: str = Field(..., description="ID de la cancha reservada")
-
+    user: UserResponse = Field(..., description="Información del usuario")
+    court: CourtResponse = Field(..., description="Información de la cancha")
     # Detalles de la reserva
     date: datetime = Field(..., description="Fecha y hora de la reserva")
     duration: int = Field(..., description="Duración de la reserva en minutos")
@@ -16,7 +18,6 @@ class Reservation(Document):
         "pending",
         description="Estado de la reserva ('pending', 'confirmed', 'cancelled')",
     )
-
     # Auditoría
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default=None)
@@ -50,3 +51,14 @@ class ReservationUpdate(BaseModel):
     status: Optional[str] = None
     date: Optional[datetime] = None
     duration: Optional[int] = None
+
+
+class ReservationResponse(BaseModel):
+    id: str
+    user: UserResponse
+    court: CourtResponse
+    date: datetime
+    duration: int
+    status: str
+    created_at: datetime
+    updated_at: Optional[datetime] = Field(default=None)
