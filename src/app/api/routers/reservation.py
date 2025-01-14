@@ -111,7 +111,6 @@ async def create_preference(reservation: ReservationCreate):
     # URL para redirigir al usuario
     payment_url = preference_response["response"]["init_point"]
 
-    fprint(new_reservation)
     new_reservation.id = str(new_reservation.id)
 
     new_reservation = ReservationResponse(**new_reservation.dict())
