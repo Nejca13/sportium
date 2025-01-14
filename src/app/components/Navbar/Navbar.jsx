@@ -9,7 +9,6 @@ import Image from 'next/image'
 import Menu from '@/app/assets/icons/Menu'
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
   const pathname = usePathname()

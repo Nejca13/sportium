@@ -1,7 +1,8 @@
+from datetime import datetime
 import os
 from beanie import PydanticObjectId
 from dotenv import load_dotenv
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, HTTPException, Query, Request, status
 from pydantic import BaseModel, Field
 import mercadopago
 
@@ -31,54 +32,95 @@ class MercadoPagoWebhook(BaseModel):
 
 
 @router.post("/webhook/", status_code=status.HTTP_200_OK)
-async def mercado_pago_webhook(request: Request):
+async def mercado_pago_webhook(
+    request: Request, data_id: str = Query(None), event_type: str = Query(None)
+):
     try:
-        # Leer el payload del webhook
-        payload = await request.json()
+        # Procesar datos desde query parameters
+        if not data_id or not event_type:
+            # Intentar leer desde el cuerpo si no están en la URL
+            payload = await request.json()
+            data_id = payload.get("data", {}).get("id")
+            event_type = payload.get("type")
+
+        if not data_id or not event_type:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="No se encontró data.id o type en la solicitud",
+            )
+
+        fprint(f"Evento recibido: {event_type}, ID: {data_id}", color="BLUE")
 
         # Procesar el evento
-        event_type = payload.get("type")  # Ejemplo: "payment", "subscription", etc.
-        resource_id = payload.get("data", {}).get("id")  # ID del recurso afectado
-
-        # Aquí manejas diferentes tipos de eventos
         if event_type == "payment":
-            # Llama a la API de Mercado Pago para obtener más detalles si es necesario
-            # Ejemplo: Obtener detalles del pago usando `resource_id`
-            fprint(f"Pago recibido. ID: {resource_id}", color="GREEN")
-            # Actualiza tu base de datos o realiza acciones necesarias
+            fprint(f"Procesando pago. ID: {data_id}", color="GREEN")
 
-            # Solicitar el detalle del pago
-            payment = sdk.payment.get(resource_id)
-            if not payment:
-                fprint(f"No se pudo obtener el pago. ID: {resource_id}", color="RED")
-            external_reference = payment["external_reference"]
-            if not external_reference:
-                fprint(
-                    f"No se pudo obtener la referencia externa. ID: {resource_id}",
-                    color="RED",
+            # Obtener detalles del pago desde Mercado Pago
+            try:
+                payment_response = sdk.payment().get(data_id)
+                payment = payment_response.get("response")
+            except Exception as e:
+                fprint(f"Error al obtener detalles del pago: {str(e)}", color="RED")
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Error al obtener el pago: {str(e)}",
                 )
 
-            # Buscar la reserva en la base de datos
-            reservation = await Reservation.get(PydanticObjectId(external_reference))
-
-            if reservation:
-                # Actualizar el estado de la reserva en la base de datos
-                reservation.status = "confirmed"
-                await reservation.update()
-
-                fprint(f"Reserva confirmada. ID: {external_reference}", color="GREEN")
-
-            else:
+            # Validar external_reference
+            external_reference = payment.get("external_reference")
+            if not external_reference:
                 fprint(
-                    f"No se encontró la reserva. ID: {external_reference}", color="RED"
+                    f"No se encontró external_reference en el pago: {payment}",
+                    color="RED",
+                )
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="No se encontró external_reference en el pago",
+                )
+
+            # Buscar y actualizar la reserva
+            try:
+                reservation = await Reservation.get(
+                    PydanticObjectId(external_reference)
+                )
+                if reservation:
+                    try:
+                        # Actualizar directamente el documento y guardar
+                        reservation.status = "confirmed"
+                        reservation.updated_at = (
+                            datetime.utcnow()
+                        )  # Actualizar timestamp
+                        await reservation.save()  # Guardar cambios en la base de datos
+
+                        fprint(
+                            f"Reserva confirmada. ID: {external_reference}",
+                            color="GREEN",
+                        )
+                    except Exception as e:
+                        fprint(f"Error al actualizar la reserva: {str(e)}", color="RED")
+                        raise HTTPException(
+                            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail=f"Error al buscar o actualizar la reserva: {str(e)}",
+                        )
+                else:
+                    fprint(
+                        f"No se encontró la reserva. ID: {external_reference}",
+                        color="RED",
+                    )
+            except Exception as e:
+                fprint(f"Error al actualizar la reserva: {str(e)}", color="RED")
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail=f"Error al buscar o actualizar la reserva: {str(e)}",
                 )
 
         else:
-            fprint(f"Evento no manejado: {event_type}")
+            fprint(f"Evento no manejado: {event_type}", color="YELLOW")
 
         return {"status": "success"}  # Responder 200 a Mercado Pago
 
     except Exception as e:
+        fprint(f"Error procesando el webhook: {str(e)}", color="RED")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Error procesando el webhook: {str(e)}",
