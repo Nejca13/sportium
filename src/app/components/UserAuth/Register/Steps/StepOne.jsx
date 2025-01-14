@@ -13,7 +13,6 @@ const StepOne = ({ setStep }) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     const formData = Object.fromEntries(new FormData(e.target))
-    console.log(formData)
     const data = { ...currentForm, ...formData }
     setCurrentForm(data)
     setStep(2)
@@ -43,6 +42,9 @@ const StepOne = ({ setStep }) => {
           onChange={(e) =>
             setCurrentImage(URL.createObjectURL(e.target.files[0]))
           }
+          onInvalid={(e) => {
+            alert(e.target.validationMessage + ' en el campo imagen')
+          }}
           style={{ display: 'none' }}
           required
         />
@@ -74,10 +76,14 @@ const StepOne = ({ setStep }) => {
           name='email'
           id='email'
           placeholder='Ingrese su correo electrónico'
+          pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+          title='Por favor, ingrese un correo electrónico válido.'
           required
         />
       </label>
-      <button type='submit'>Siguiente</button>
+      <button type='submit' className={styles.button}>
+        Siguiente
+      </button>
     </form>
   )
 }

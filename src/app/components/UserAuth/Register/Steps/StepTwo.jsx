@@ -3,9 +3,14 @@ import { useState } from 'react'
 import styles from './../Register.module.css'
 import useStore from '@/app/store'
 import { register } from '@/app/services/register/register'
+import Spinner from '@/app/components/Spinner/Spinner'
+import OpenEye from '@/app/assets/icons/OpenEye'
+import CloseEye from '@/app/assets/icons/CloseEye'
 
 const StepTwo = ({ setStep }) => {
   const [preferredSports, setPreferredSports] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const { currentForm, setCurrentForm } = useStore()
   const { clearCurrentForm } = useStore.getState()
   const handleCheckboxChange = (event) => {
@@ -18,10 +23,13 @@ const StepTwo = ({ setStep }) => {
     }
   }
 
-  console.log(preferredSports)
+  const handleTogglePassword = () => {
+    setShowPassword((prevState) => !prevState)
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
     const formData = Object.fromEntries(new FormData(e.target))
     if (formData.password !== formData['confirm-password']) {
       alert('Las contraseñas no coinciden')
@@ -38,11 +46,15 @@ const StepTwo = ({ setStep }) => {
     await register(data)
       .then((response) => {
         if (response.success) {
-          console.log(response.data)
+          setStep(3)
+          clearCurrentForm()
         }
       })
       .catch((error) => {
-        console.log(error)
+        alert(error)
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
   }
 
@@ -60,23 +72,49 @@ const StepTwo = ({ setStep }) => {
       </label>
       <label htmlFor='password' id='password'>
         Contraseña
-        <input
-          type='password'
-          name='password'
-          id='password'
-          placeholder='Contraseña'
-          required
-        />
+        <div className={styles.input_container}>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name='password'
+            id='password'
+            placeholder='Contraseña'
+            required
+          />
+          <button
+            type='button'
+            className={styles.togglePassword}
+            onClick={handleTogglePassword}
+          >
+            {showPassword ? (
+              <OpenEye width='20px' height='20px' />
+            ) : (
+              <CloseEye width='20px' height='20px' />
+            )}
+          </button>
+        </div>
       </label>
       <label htmlFor='confirm-password' id='confirm-password'>
         Contraseña
-        <input
-          type='password'
-          name='confirm-password'
-          id='confirm-password'
-          placeholder='Confirmar contraseña'
-          required
-        />
+        <div className={styles.input_container}>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name='confirm-password'
+            id='confirm-password'
+            placeholder='Confirmar contraseña'
+            required
+          />
+          <button
+            type='button'
+            className={styles.togglePassword}
+            onClick={handleTogglePassword}
+          >
+            {showPassword ? (
+              <OpenEye width='20px' height='20px' />
+            ) : (
+              <CloseEye width='20px' height='20px' />
+            )}
+          </button>
+        </div>
       </label>
       <span>Seleccione deporte (opcional)</span>
       <div className={styles.checkbox}>
@@ -99,9 +137,12 @@ const StepTwo = ({ setStep }) => {
           />
         </label>
       </div>
-      <div className={styles.button}>
-        <button type='submit'>Registrarse</button>
+      <div className={styles.button_container}>
+        <button className={styles.button} type='submit'>
+          {isLoading ? <Spinner /> : 'Registrarse'}
+        </button>
         <button
+          className={styles.button}
           onClick={(e) => {
             e.preventDefault()
             clearCurrentForm()
