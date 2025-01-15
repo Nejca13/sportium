@@ -42,6 +42,9 @@
   border-bottom: 1px solid rgb(211, 211, 211);
   font-family: inherit;
   text-align: start;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .user_list li button {
