@@ -116,3 +116,13 @@ async def create_preference(reservation: ReservationCreate):
     new_reservation = ReservationResponse(**new_reservation.dict())
 
     return {"reservation": new_reservation, "payment_url": payment_url}
+
+
+# Listar las reservas de un usuario
+@router.get("/user/{user_id}/", response_model=list)
+async def get_user_reservations(user_id: str):
+    user = await User.get(PydanticObjectId(user_id))
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    reservations = await Reservation.find(Reservation.user.id == user.id).to_list()
+    return reservations
