@@ -126,3 +126,12 @@ async def get_user_reservations(user_id: str):
         raise HTTPException(status_code=404, detail="User not found")
     reservations = await Reservation.find(Reservation.user.id == user.id).to_list()
     return reservations
+
+
+# Obtener una reserva específica
+@router.get("/{reservation_id}/", response_model=ReservationResponse)
+async def get_reservation(reservation_id: str):
+    reservation = await Reservation.get(PydanticObjectId(reservation_id))
+    if not reservation:
+        raise HTTPException(status_code=404, detail="Reservation not found")
+    return reservation

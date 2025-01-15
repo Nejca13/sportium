@@ -1,5 +1,6 @@
 # CRUD de canchas
 import json
+from beanie import PydanticObjectId
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from app.api.models.court import Court
 from app.api.utils.fprint import fprint
@@ -33,3 +34,27 @@ async def create_court(court: str = Form(...), image: UploadFile = File(...)):
 async def get_courts():
     courts = await Court.find().to_list()
     return courts
+
+
+@router.get("/get-court/{court_id}/")
+async def get_court(court_id: str):
+    court = await Court.find_one(Court.id == PydanticObjectId(court_id))
+    return court
+
+
+@router.put("/update-court/{court_id}/")
+async def update_court(court_id: str, court: Court):
+    court = await Court.find_one(Court.id == PydanticObjectId(court_id))
+    if not court:
+        raise HTTPException(status_code=404, detail="Court not found")
+    await court.update(court)
+    return court
+
+
+@router.delete("/delete-court/{court_id}/")
+async def delete_court(court_id: str):
+    court = await Court.find_one(Court.id == PydanticObjectId(court_id))
+    if not court:
+        raise HTTPException(status_code=404, detail="Court not found")
+    await court.delete()
+    return court

@@ -1,4 +1,4 @@
-from beanie import Document
+from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
@@ -54,7 +54,7 @@ class ReservationUpdate(BaseModel):
 
 
 class ReservationResponse(BaseModel):
-    id: str
+    id: PydanticObjectId
     user: UserResponse
     court: CourtResponse
     date: datetime
