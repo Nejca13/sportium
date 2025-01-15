@@ -7,7 +7,7 @@ const UserSettings = () => {
 
   return (
     <div className={styles.user}>
-      <button className={styles.avatar}>
+      <div className={styles.avatar}>
         <Image
           src={currentUser?.user?.img}
           alt='avatar'
@@ -20,7 +20,7 @@ const UserSettings = () => {
           </span>
           <p>{currentUser?.user?.email}</p>
         </div>
-      </button>
+      </div>
     </div>
   )
 }
