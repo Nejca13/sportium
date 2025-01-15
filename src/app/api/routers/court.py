@@ -61,9 +61,19 @@ async def delete_court(court_id: str):
 
 
 # Filtrar cancha por deporte
-
-
 @router.get("/filter/by-sport-type/", response_model=list)
 async def filter_courts(sport_type: str):
     courts = await Court.find(Court.sport_type == sport_type).to_list()
     return courts
+
+
+# Eliminar una cancha
+@router.delete("/delete-court/{court_id}/")
+async def delete_court(court_id: str):
+    court = await Court.find_one(Court.id == PydanticObjectId(court_id))
+    if not court:
+        raise HTTPException(status_code=404, detail="Court not found")
+    await court.delete()
+
+    # Devolver un mensaje de confirmación
+    return {"message": "Cancha eliminada correctamente"}
