@@ -6,6 +6,7 @@ from .routers.login import router as login
 from .routers.mercadopago import router as mercado_pago
 from .routers.reservation import router as reservation
 from .routers.court import router as courts
+from .routers.logout import router as logout
 
 
 app = FastAPI()
@@ -20,6 +21,7 @@ app.include_router(usuarios, tags=["Usuarios"])
 app.include_router(reservation, tags=["Reservas"])  # Incluir el router de usuarios
 app.include_router(courts, tags=["Canchas"])
 app.include_router(login, tags=["Login"])
+app.include_router(logout, tags=["Logout"])
 app.include_router(mercado_pago, tags=["Mercado Pago"])
 
 
