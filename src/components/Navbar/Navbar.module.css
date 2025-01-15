@@ -61,9 +61,10 @@
 
 .nav {
   width: 100%;
+  height: auto;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
   max-width: 1400px;
   padding: 30px 20px;
   position: relative;
@@ -83,7 +84,8 @@
 .nav .login {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -116,10 +118,11 @@
 
   .nav {
     padding: 20px;
+    align-items: center;
   }
 
   .logo img {
-    width: 80px;
+    width: 50px;
   }
 
   .nav .login {
@@ -131,7 +134,7 @@
     width: 100%;
     max-width: 200px;
     position: absolute;
-    top: 70px;
+    top: 90px;
     right: 20px;
     flex-direction: column;
     gap: 0px;
@@ -164,11 +167,11 @@
 
   .menu_button {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .menu_button button {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 }
