@@ -5,6 +5,7 @@ import image_one from '@/assets/images/Slider_image/paleta.webp'
 import image_two from '@/assets/images/Slider_image/cancha.webp'
 import image_three from '@/assets/images/Slider_image/hombre.webp'
 import FormReservas from './FormReservas/FormReservas'
+import Link from 'next/link'
 
 const Inicio = () => {
   const images = [image_three, image_one, image_two]
@@ -46,10 +47,10 @@ const Inicio = () => {
       ))}
       <div className={styles.content}>
         <div className={styles.title}>
-          <h1>Sportium Canchas de Futbol & Padel.</h1>
+          <h1>Sportium Canchas de Futbol & Padel</h1>
           <p>Encuentra las canchas disponibles y reservalas al instante.</p>
         </div>
-        <FormReservas />
+        <Link href={'/reservas'}>Hacer mi reserva</Link>
       </div>
     </section>
   )
