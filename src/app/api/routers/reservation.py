@@ -1,4 +1,5 @@
 # Modelo para los datos del ítem
+from datetime import datetime
 from hmac import new
 import os
 from beanie import PydanticObjectId
@@ -135,3 +136,13 @@ async def get_reservation(reservation_id: str):
     if not reservation:
         raise HTTPException(status_code=404, detail="Reservation not found")
     return reservation
+
+
+# Filtrar reservas por fecha y cancha
+@router.get("/filter/by-date-and-court/", response_model=list)
+async def filter_reservations(date: datetime, court_id: str):
+    reservations = await Reservation.find(
+        Reservation.date == date,
+        Reservation.court.id == PydanticObjectId(court_id),
+    ).to_list()
+    return reservations

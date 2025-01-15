@@ -58,3 +58,12 @@ async def delete_court(court_id: str):
         raise HTTPException(status_code=404, detail="Court not found")
     await court.delete()
     return court
+
+
+# Filtrar cancha por deporte
+
+
+@router.get("/filter/by-sport-type/", response_model=list)
+async def filter_courts(sport_type: str):
+    courts = await Court.find(Court.sport_type == sport_type).to_list()
+    return courts
