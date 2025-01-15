@@ -1,6 +1,6 @@
-import CreateCourtForm from '@/app/components/Admin/Courts/CreateCourtForm/CreateCourtForm'
+import CreateCourtForm from '@/components/Admin/Courts/CreateCourtForm/CreateCourtForm'
 import styles from './page.module.css'
-import CourtList from '@/app/components/Admin/Courts/CourtsList/CourtList'
+import CourtList from '@/components/Admin/Courts/CourtsList/CourtList'
 
 const AdminDashboardPage = () => {
   return (

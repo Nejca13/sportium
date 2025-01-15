@@ -1,0 +1,174 @@
+.header {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.banner {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+
+.content_banner {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  max-width: 1400px;
+  background: #000;
+  padding: 10px 20px;
+}
+
+.content_banner .whatsapp {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.whatsapp i {
+  display: flex;
+  align-items: center;
+}
+
+.social {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+}
+
+.social a,
+.social i {
+  display: flex;
+  align-items: center;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1400px;
+  padding: 30px 20px;
+  position: relative;
+}
+
+.nav .logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 90px;
+  height: auto;
+  filter: drop-shadow(0px 4px 4px rgb(0, 0, 0));
+}
+
+.nav .login {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav .login_button {
+  font-size: 15px;
+  padding: 10px 25px;
+  font-weight: 600;
+  border-radius: 6px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.089);
+}
+
+.login .login_button:nth-of-type(1) {
+  background: var(--green);
+  color: var(--background);
+}
+
+.login .login_button:nth-of-type(2) {
+  background: var(--background);
+  color: var(--green);
+}
+
+.menu_button {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .content_banner {
+    padding: 15px;
+  }
+
+  .nav {
+    padding: 20px;
+  }
+
+  .logo img {
+    width: 80px;
+  }
+
+  .nav .login {
+    display: none;
+  }
+
+  .nav .login.show {
+    display: flex;
+    width: 100%;
+    max-width: 200px;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    flex-direction: column;
+    gap: 0px;
+    background: var(--background);
+    border-radius: 6px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.219);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav .login_button {
+    font-size: 13px;
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+    font-weight: 500;
+    padding: 15px 15px;
+    border-radius: 0px;
+  }
+
+  .login .login_button:nth-of-type(1) {
+    background: transparent;
+    color: black;
+    border-bottom: 1px solid rgb(211, 211, 211);
+  }
+
+  .login .login_button:nth-of-type(2) {
+    background: transparent;
+    color: black;
+  }
+
+  .menu_button {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu_button button {
+    display: flex;
+    align-items: center;
+  }
+}
