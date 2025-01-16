@@ -13,7 +13,7 @@ class Reservation(Document):
     court: CourtResponse = Field(..., description="Información de la cancha")
     # Detalles de la reserva
     date: datetime = Field(..., description="Fecha y hora de la reserva")
-    duration: int = Field(..., description="Duración de la reserva en minutos")
+    duration: Optional[int] = Field(60, description="Duración de la reserva en minutos")
     status: str = Field(
         "pending",
         description="Estado de la reserva ('pending', 'confirmed', 'cancelled')",

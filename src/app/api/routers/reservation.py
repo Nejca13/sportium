@@ -76,6 +76,16 @@ async def create_preference(reservation: ReservationCreate):
             duration=new_reservation.duration,
             status="pending",
         )
+        # Comprobar que no existe una reserva con la misma fecha y cancha
+        existing_reservation = await Reservation.find(
+            Reservation.date == new_reservation.date,
+            Reservation.court.id == new_reservation.court.id,
+        ).first()
+        if existing_reservation:
+            raise HTTPException(
+                status_code=400,
+                detail="Ya existe una reserva para esta fecha y cancha",
+            )
         new_reservation = await new_reservation.create()
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error al crear la reserva. {e}")

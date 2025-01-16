@@ -33,7 +33,11 @@ const Navbar = () => {
     <header className={styles.header}>
       <div className={styles.banner}>
         <div className={styles.content_banner}>
-          <Link href='/' className={styles.whatsapp}>
+          <Link
+            href='https://wa.me/5491166344522'
+            target='_blank'
+            className={styles.whatsapp}
+          >
             <i>
               <Whatsapp width='20px' height='20px' />
             </i>

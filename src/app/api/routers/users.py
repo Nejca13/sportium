@@ -110,3 +110,13 @@ async def update_user(
         )
 
     return existing_user
+
+
+# Eliminar un usuario
+@router.delete("/delete/{user_id}/")
+async def delete_user(user_id: str):
+    user = await User.find_one(User.id == PydanticObjectId(user_id))
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    await user.delete()
+    return user
