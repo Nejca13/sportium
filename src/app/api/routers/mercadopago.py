@@ -1,11 +1,9 @@
 from datetime import datetime
 import os
 from beanie import PydanticObjectId
-from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, Query, Request, status
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 import mercadopago
-
 from app.api.models.reservation import Reservation
 from app.api.utils.fprint import fprint
 
