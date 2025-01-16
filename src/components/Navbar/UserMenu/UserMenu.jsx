@@ -8,6 +8,8 @@ import { logout } from '@/utils/logout'
 import Calendar from '@/assets/icons/Calendar'
 import CalendarCheck from '@/assets/icons/CalendarCheck'
 import Logout from '@/assets/icons/Logout'
+import { usePathname } from 'next/navigation'
+import Home from '@/assets/icons/Home'
 
 const UserMenu = () => {
   const [showMenu, setShowMenu] = useState(false)
@@ -17,8 +19,10 @@ const UserMenu = () => {
   const cerrarSesion = () => {
     logout()
     clearCurrentUser()
-    router.push('/login')
+    router.push('/')
   }
+
+  const pathname = usePathname()
 
   return (
     <div className={styles.user}>
@@ -28,13 +32,29 @@ const UserMenu = () => {
         </button>
       </div>
       <ul className={` ${styles.user_list} ${showMenu ? styles.show : ''}`}>
+        {pathname !== '/' && (
+          <li>
+            <Link href='/' onClick={toggleMenu} className={styles.login_button}>
+              <Home />
+              Inicio
+            </Link>
+          </li>
+        )}
         <li>
-          <Link href='/login' className={styles.login_button}>
+          <Link
+            href='/reservations'
+            onClick={toggleMenu}
+            className={styles.login_button}
+          >
             <Calendar /> Hacer reservas
           </Link>
         </li>
         <li>
-          <Link href='/register' className={styles.login_button}>
+          <Link
+            href='/register'
+            onClick={toggleMenu}
+            className={styles.login_button}
+          >
             <CalendarCheck />
             Mis reservas
           </Link>

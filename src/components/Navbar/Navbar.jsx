@@ -72,10 +72,27 @@ const Navbar = () => {
         ) : (
           <>
             <div className={`${styles.login} ${showMenu ? styles.show : ''}`}>
-              <Link href='/register' className={styles.login_button}>
+              {pathname !== '/' && (
+                <Link
+                  href='/'
+                  onClick={toggleMenu}
+                  className={styles.login_button}
+                >
+                  Inicio
+                </Link>
+              )}
+              <Link
+                href='/register'
+                onClick={toggleMenu}
+                className={styles.login_button}
+              >
                 Registrarse
               </Link>
-              <Link href='/login' className={styles.login_button}>
+              <Link
+                href='/login'
+                onClick={toggleMenu}
+                className={styles.login_button}
+              >
                 Iniciar sesión
               </Link>
             </div>
