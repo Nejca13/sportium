@@ -50,7 +50,7 @@ const Inicio = () => {
           <h1>Sportium Canchas de Futbol & Padel</h1>
           <p>Encuentra las canchas disponibles y reservalas al instante.</p>
         </div>
-        <Link href={'/reservas'}>Hacer mi reserva</Link>
+        <Link href={'/reservations'}>Hacer mi reserva</Link>
       </div>
     </section>
   )
