@@ -1,5 +1,4 @@
 'use client'
-
 import Link from 'next/link'
 import styles from './Navbar.module.css'
 import Facebook from '@/assets/icons/Facebook'
@@ -8,7 +7,7 @@ import Whatsapp from '@/assets/icons/Whatsapp'
 import logo from '@/assets/images/logos/Recurso 15_052734.png'
 import Image from 'next/image'
 import Menu from '@/assets/icons/Menu'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import User from './User/User'
 import useStore from '@/app/store'
@@ -18,6 +17,7 @@ const Navbar = () => {
   const pathname = usePathname()
   const [showMenu, setShowMenu] = useState(false)
   const { currentUser } = useStore()
+  const menuRef = useRef(null)
 
   if (
     pathname === '/register' ||
@@ -28,6 +28,24 @@ const Navbar = () => {
   }
 
   const toggleMenu = () => setShowMenu(!showMenu)
+
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setShowMenu(false)
+    }
+  }
+
+  useEffect(() => {
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showMenu])
 
   return (
     <header className={styles.header}>
@@ -71,7 +89,10 @@ const Navbar = () => {
           <UserMenu />
         ) : (
           <>
-            <div className={`${styles.login} ${showMenu ? styles.show : ''}`}>
+            <div
+              ref={menuRef}
+              className={`${styles.login} ${showMenu ? styles.show : ''}`}
+            >
               {pathname !== '/' && (
                 <Link
                   href='/'

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import styles from './UserMenu.module.css'
 import Menu from '@/assets/icons/Menu'
 import Link from 'next/link'
@@ -8,13 +8,16 @@ import { logout } from '@/utils/logout'
 import Calendar from '@/assets/icons/Calendar'
 import CalendarCheck from '@/assets/icons/CalendarCheck'
 import Logout from '@/assets/icons/Logout'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Home from '@/assets/icons/Home'
 
 const UserMenu = () => {
   const [showMenu, setShowMenu] = useState(false)
-  const toggleMenu = () => setShowMenu(!showMenu)
+  const menuRef = useRef(null)
   const { clearCurrentUser } = useStore()
+  const router = useRouter()
+
+  const toggleMenu = () => setShowMenu(!showMenu)
 
   const cerrarSesion = () => {
     logout()
@@ -24,14 +27,32 @@ const UserMenu = () => {
 
   const pathname = usePathname()
 
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setShowMenu(false)
+    }
+  }
+
+  useEffect(() => {
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showMenu])
+
   return (
-    <div className={styles.user}>
+    <div className={styles.user} ref={menuRef}>
       <div className={styles.menu_button_user}>
         <button aria-label='menu' onClick={toggleMenu}>
           <Menu width='40px' height='40px' />
         </button>
       </div>
-      <ul className={` ${styles.user_list} ${showMenu ? styles.show : ''}`}>
+      <ul className={`${styles.user_list} ${showMenu ? styles.show : ''}`}>
         {pathname !== '/' && (
           <li>
             <Link href='/' onClick={toggleMenu} className={styles.login_button}>
