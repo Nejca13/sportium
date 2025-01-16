@@ -9,15 +9,19 @@ export const createReservation = async (data) => {
     body: JSON.stringify(data),
   }
 
-  await fetch(API_URL + 'create-reservation/', options)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
-    .finally(() => {
-      console.log('Finalizo el fetch de createReservation')
-    })
+  try {
+    const response = await fetch(API_URL + 'create-reservation/', options)
+
+    if (!response.ok) {
+      const error = await response.json()
+      console.log('Error response:', error)
+      return { success: false, message: error || 'Unknown error' }
+    }
+    const data = await response.json()
+    console.log('Success response:', data)
+    return { success: true, data }
+  } catch (error) {
+    console.log(error)
+    return { success: false, message: error }
+  }
 }
