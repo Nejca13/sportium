@@ -18,6 +18,8 @@ class Reservation(Document):
         "pending",
         description="Estado de la reserva ('pending', 'confirmed', 'cancelled')",
     )
+    payment_url: Optional[str] = None
+
     # Auditoría
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default=None)
@@ -44,6 +46,7 @@ class ReservationCreate(BaseModel):
     court_id: str
     date: datetime
     duration: int
+    payment_url: Optional[str] = None
 
 
 # Modelo para actualización de reservas (por ejemplo, cambiar el estado)
@@ -51,6 +54,7 @@ class ReservationUpdate(BaseModel):
     status: Optional[str] = None
     date: Optional[datetime] = None
     duration: Optional[int] = None
+    payment_url: Optional[str] = None
 
 
 class ReservationResponse(BaseModel):
@@ -62,3 +66,4 @@ class ReservationResponse(BaseModel):
     status: str
     created_at: datetime
     updated_at: Optional[datetime] = Field(default=None)
+    payment_url: Optional[str] = None

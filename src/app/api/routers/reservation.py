@@ -114,6 +114,7 @@ async def create_preference(reservation: ReservationCreate):
     payment_url = preference_response["response"]["init_point"]
 
     new_reservation.id = str(new_reservation.id)
+    new_reservation.payment_url = payment_url
 
     new_reservation = ReservationResponse(**new_reservation.dict())
 
