@@ -148,3 +148,13 @@ async def filter_reservations(date: datetime, court_id: str):
         Reservation.court.id == PydanticObjectId(court_id),
     ).to_list()
     return reservations
+
+
+# Cancelar una reserva
+@router.delete("/{reservation_id}/")
+async def cancel_reservation(reservation_id: str):
+    reservation = await Reservation.get(PydanticObjectId(reservation_id))
+    if not reservation:
+        raise HTTPException(status_code=404, detail="Reservation not found")
+    await reservation.delete()
+    return reservation
