@@ -8,6 +8,8 @@ import { login } from '@/services/login/login'
 import { useRouter } from 'next/navigation'
 import Spinner from '@/components/Spinner/Spinner'
 import useStore from '@/app/store'
+import imagen_logo from '@/assets/images/logos/Recurso 14_023535.png'
+import Image from 'next/image'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -53,6 +55,7 @@ const Login = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.container_form}>
+          <Image src={imagen_logo} alt='logo' width={200} height={200} />
           <form onSubmit={onSubmit}>
             <label htmlFor='username' id='username'>
               Correo Electrónico

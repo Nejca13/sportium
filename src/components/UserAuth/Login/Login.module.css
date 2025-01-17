@@ -25,9 +25,17 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding: 30px 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.089);
+}
+
+.container_form img {
+  width: 130px;
+  height: auto;
+  border-radius: 50%;
+  margin-top: -90px;
+  border: 5px solid white;
 }
 
 .container_form form {
