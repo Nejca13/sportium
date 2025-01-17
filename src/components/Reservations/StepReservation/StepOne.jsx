@@ -33,19 +33,25 @@ const StepOne = ({ setStep, isLoading, setIsLoading }) => {
         curtAndDate.court_id,
         curtAndDate.date
       ).then((res) => {
-        console.log(res.data)
         if (res.success) {
-          const unavailableTimes = res.data.map(
-            (item) =>
-              new Date(item.date).getHours() +
-              ':' +
-              new Date(item.date).getMinutes() +
-              '0'
-          )
+          const unavailableTimes = res.data
+            .filter((item) => item.status === 'confirmed')
+            .map((item) => {
+              const hours = new Date(item.date)
+                .getHours()
+                .toString()
+                .padStart(2, '0')
+              const minutes = new Date(item.date)
+                .getMinutes()
+                .toString()
+                .padStart(2, '0')
+              return `${hours}:${minutes}`
+            })
 
-          console.log(unavailableTimes)
+          const normalizedTime = time.map((item) => item.padStart(5, '0'))
+
           setAvailableTime(
-            time.filter((item) => !unavailableTimes.includes(item))
+            normalizedTime.filter((item) => !unavailableTimes.includes(item))
           )
         }
       })
@@ -56,8 +62,6 @@ const StepOne = ({ setStep, isLoading, setIsLoading }) => {
     obtenerCanchas()
     deleteTimeIsNotAvailable(time)
   }, [curtAndDate])
-
-  console.log(curtAndDate)
 
   const onSubmit = async (e) => {
     e.preventDefault()

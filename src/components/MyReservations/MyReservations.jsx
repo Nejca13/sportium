@@ -20,6 +20,7 @@ const MyReservations = () => {
     await getReservationById(user_id)
       .then((response) => {
         if (response.success) {
+          console.log(response.data)
           setReservations(response.data)
         }
       })
@@ -88,8 +89,8 @@ const MyReservations = () => {
             Pendientes
           </button>
           <button
-            onClick={() => setActiveButton('approved')}
-            className={`${styles.button} ${activeButton === 'approved' ? styles.active : ''}`}
+            onClick={() => setActiveButton('confirmed')}
+            className={`${styles.button} ${activeButton === 'confirmed' ? styles.active : ''}`}
           >
             Pagadas
           </button>
