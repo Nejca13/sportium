@@ -32,24 +32,21 @@ async def create_preference(reservation: ReservationCreate):
     # Crea la reserva en la base de datos (ejemplo, no implementado)
     new_reservation = reservation
 
+    # Verifica si el usuario existe
     user = await User.get(PydanticObjectId(new_reservation.user_id))
-
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
+    # Verifica si la cancha existe y está activa
     court = await Court.get(PydanticObjectId(new_reservation.court_id))
-
     if not court:
         raise HTTPException(status_code=404, detail="Court not found")
-
     if not court.is_active:
         raise HTTPException(status_code=400, detail="Court is not active")
-
     if court.price is None:
         raise HTTPException(status_code=400, detail="Court has no price")
 
-    # Guardar la reserva en la base de datos
-
+    # Guarda la reserva inicial en la base de datos
     try:
         new_reservation = Reservation(
             user=UserResponse(
@@ -74,14 +71,14 @@ async def create_preference(reservation: ReservationCreate):
             ),
             date=new_reservation.date,
             duration=new_reservation.duration,
+            payment_url=None,
             status="pending",
         )
-
         new_reservation = await new_reservation.create()
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error al crear la reserva. {e}")
 
-    # Generar preferencia de pago en Mercado Pago
+    # Genera preferencia de pago en Mercado Pago
     preference_data = {
         "items": [
             {
@@ -104,7 +101,7 @@ async def create_preference(reservation: ReservationCreate):
             "pending": "https://tuweb.com/pago-pendiente/",
         },
         "auto_return": "approved",
-        "external_reference": str(new_reservation.id),  # ID de la reserva (opcional)
+        "external_reference": str(new_reservation.id),
     }
     preference_response = sdk.preference().create(preference_data)
     if preference_response.get("status") != 201:
@@ -113,15 +110,16 @@ async def create_preference(reservation: ReservationCreate):
     # URL para redirigir al usuario
     payment_url = preference_response["response"]["init_point"]
 
-    new_reservation.id = str(new_reservation.id)
-    new_reservation.payment_url = payment_url
+    # Actualiza el campo payment_url en la reserva y guarda los cambios
+    try:
+        new_reservation.payment_url = payment_url
+        await new_reservation.save()  # Guarda los cambios en la base de datos
+    except Exception as e:
+        raise HTTPException(
+            status_code=400, detail=f"Error al actualizar la reserva. {e}"
+        )
 
-    # Guardar la reserva en la base de datos
-    await new_reservation.save()
-
-    new_reservation = ReservationResponse(**new_reservation.dict())
-
-    return {"reservation": new_reservation, "payment_url": payment_url}
+    return {"reservation": new_reservation.dict(), "payment_url": payment_url}
 
 
 # Listar las reservas de un usuario
