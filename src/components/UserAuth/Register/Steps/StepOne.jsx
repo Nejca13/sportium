@@ -76,7 +76,6 @@ const StepOne = ({ setStep }) => {
           name='email'
           id='email'
           placeholder='Ingrese su correo electrónico'
-          pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
           required
           autoComplete='email'
         />

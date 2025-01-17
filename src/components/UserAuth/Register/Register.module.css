@@ -129,7 +129,7 @@
   flex-direction: row !important;
   justify-content: flex-start !important;
   align-items: center !important;
-  width: min-content !important;
+  width: 70px !important;
 }
 
 .container_form form span {
@@ -197,4 +197,11 @@
   font-weight: 500;
   color: var(--green);
   text-transform: uppercase;
+}
+
+.container_form small {
+  text-align: center;
+  margin-top: -10px;
+  color: red;
+  margin-top: 10px;
 }

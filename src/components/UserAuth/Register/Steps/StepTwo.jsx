@@ -11,6 +11,8 @@ const StepTwo = ({ setStep }) => {
   const [preferredSports, setPreferredSports] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
   const { currentForm, setCurrentForm } = useStore()
   const { clearCurrentForm } = useStore.getState()
   const handleCheckboxChange = (event) => {
@@ -30,6 +32,8 @@ const StepTwo = ({ setStep }) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
+    setErrorMessage('')
+
     const formData = Object.fromEntries(new FormData(e.target))
     if (formData.password !== formData['confirm-password']) {
       alert('Las contraseñas no coinciden')
@@ -48,10 +52,12 @@ const StepTwo = ({ setStep }) => {
         if (response.success) {
           setStep(3)
           clearCurrentForm()
+        } else {
+          setErrorMessage(response.message.detail)
         }
       })
       .catch((error) => {
-        alert(error)
+        setErrorMessage('Error al iniciar sesión:', error)
       })
       .finally(() => {
         setIsLoading(false)
@@ -118,7 +124,7 @@ const StepTwo = ({ setStep }) => {
       </label>
       <span>Seleccione deporte (opcional)</span>
       <div className={styles.checkbox}>
-        <label>
+        <label htmlFor='padel' id='padel'>
           Pádel
           <input
             type='checkbox'
@@ -127,7 +133,7 @@ const StepTwo = ({ setStep }) => {
             onChange={handleCheckboxChange}
           />
         </label>
-        <label>
+        <label htmlFor='futbol' id='futbol'>
           Fútbol
           <input
             type='checkbox'
@@ -145,12 +151,13 @@ const StepTwo = ({ setStep }) => {
           className={styles.button}
           onClick={(e) => {
             e.preventDefault()
-            clearCurrentForm()
+            // clearCurrentForm()
             setStep(1)
           }}
         >
           Volver
         </button>
+        {errorMessage && <small className={styles.error}>{errorMessage}</small>}
       </div>
     </form>
   )
