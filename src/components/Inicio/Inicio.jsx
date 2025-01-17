@@ -6,11 +6,14 @@ import image_two from '@/assets/images/Slider_image/cancha.webp'
 import image_three from '@/assets/images/Slider_image/hombre.webp'
 import FormReservas from './FormReservas/FormReservas'
 import Link from 'next/link'
+import useStore from '@/app/store'
 
 const Inicio = () => {
   const images = [image_three, image_one, image_two]
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [isTransitionEnabled, setIsTransitionEnabled] = useState(false)
+
+  const { currentUser } = useStore()
 
   useEffect(() => {
     const preloadImages = (imageArray) => {
@@ -50,7 +53,9 @@ const Inicio = () => {
           <h1>Sportium Canchas de Futbol & Padel</h1>
           <p>Encuentra las canchas disponibles y reservalas al instante.</p>
         </div>
-        <Link href={'/reservations'}>Hacer mi reserva</Link>
+        <Link href={currentUser ? '/reservations' : '/login'}>
+          Hacer mi reserva
+        </Link>
       </div>
     </section>
   )
