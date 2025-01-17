@@ -151,7 +151,7 @@ const StepTwo = ({ setStep }) => {
           className={styles.button}
           onClick={(e) => {
             e.preventDefault()
-            // clearCurrentForm()
+            clearCurrentForm()
             setStep(1)
           }}
         >
