@@ -1,20 +1,16 @@
-# Modelo para los datos del ítem
 from datetime import datetime
-from hmac import new
 import os
 from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException
 import mercadopago
-from pydantic import BaseModel, Field
-
+from app.api.init_db import BASE_URL
 from app.api.models.court import Court, CourtResponse
 from app.api.models.reservation import (
     Reservation,
     ReservationCreate,
     ReservationResponse,
 )
-from app.api.models.user import User, UserCreate, UserResponse
-from app.api.utils.fprint import fprint
+from app.api.models.user import User, UserResponse
 
 sdk = mercadopago.SDK(os.getenv("MERCADOPAGO_ACCESS_TOKEN"))
 
@@ -25,8 +21,6 @@ router = APIRouter(
 
 
 # Modelo para las preferencias (opcionalmente con datos del comprador)
-
-
 @router.post("/create-reservation/")
 async def create_preference(reservation: ReservationCreate):
     # Crea la reserva en la base de datos (ejemplo, no implementado)
@@ -96,9 +90,9 @@ async def create_preference(reservation: ReservationCreate):
             "email": user.email,
         },
         "back_urls": {
-            "success": "https://tuweb.com/pago-exitoso/",
-            "failure": "https://tuweb.com/pago-fallido/",
-            "pending": "https://tuweb.com/pago-pendiente/",
+            "success": f"{BASE_URL}/pago-exitoso/",
+            "failure": f"{BASE_URL}/pago-fallido/",
+            "pending": f"{BASE_URL}/pago-pendiente/",
         },
         "auto_return": "approved",
         "external_reference": str(new_reservation.id),
