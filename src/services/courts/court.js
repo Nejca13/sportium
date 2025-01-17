@@ -6,7 +6,6 @@ export const createCourt = async (data) => {
   formatedData.append('court', JSON.stringify(data))
   const options = {
     method: 'POST',
-
     body: formatedData,
   }
 

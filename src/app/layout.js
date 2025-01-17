@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
       <body className={` ${montserrat.className}`}>
         <Navbar />
         {children}
-        <ButtonWhatsapp />
+        {/* <ButtonWhatsapp /> */}
       </body>
     </html>
   )

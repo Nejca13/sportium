@@ -25,8 +25,8 @@ const CourtList = () => {
         </thead>
         <tbody>
           {courts.length > 0 &&
-            courts.map((court) => (
-              <tr key={court.id}>
+            courts.map((court, index) => (
+              <tr key={index}>
                 <td>{court.name}</td>
                 <td>{court.location}</td>
                 <td>
