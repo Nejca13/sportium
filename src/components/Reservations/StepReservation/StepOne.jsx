@@ -34,13 +34,27 @@ const StepOne = ({ setStep, isLoading, setIsLoading }) => {
         curtAndDate.date
       ).then((res) => {
         console.log(res.data)
+        if (res.success) {
+          const unavailableTimes = res.data.map(
+            (item) =>
+              new Date(item.date).getHours() +
+              ':' +
+              new Date(item.date).getMinutes() +
+              '0'
+          )
+
+          console.log(unavailableTimes)
+          setAvailableTime(
+            time.filter((item) => !unavailableTimes.includes(item))
+          )
+        }
       })
     }
   }
 
   useEffect(() => {
     obtenerCanchas()
-    deleteTimeIsNotAvailable()
+    deleteTimeIsNotAvailable(time)
   }, [curtAndDate])
 
   console.log(curtAndDate)
@@ -114,19 +128,21 @@ const StepOne = ({ setStep, isLoading, setIsLoading }) => {
           }
         />
       </label>
-      <label htmlFor='horario' id='horario'>
-        Seleccione un horario
-        <select name='horario' id='horario' defaultValue='' required>
-          <option value='' disabled>
-            seleccione un horario
-          </option>
-          {time.map((hora, index) => (
-            <option key={index} value={hora}>
-              {hora}
+      {curtAndDate.date && curtAndDate.court_id && (
+        <label htmlFor='horario' id='horario'>
+          Seleccione un horario
+          <select name='horario' id='horario' defaultValue='' required>
+            <option value='' disabled>
+              seleccione un horario
             </option>
-          ))}
-        </select>
-      </label>
+            {avialableTime.map((hora, index) => (
+              <option key={index} value={hora}>
+                {hora}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <button type='submit' className={styles.button}>
         {isLoading ? <Spinner /> : 'Reservar'}
       </button>
