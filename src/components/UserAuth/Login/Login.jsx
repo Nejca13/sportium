@@ -62,6 +62,7 @@ const Login = () => {
                 id='username'
                 placeholder='Correo Electrónico'
                 required
+                autoComplete='email'
               />
             </label>
             <label htmlFor='password' id='password'>

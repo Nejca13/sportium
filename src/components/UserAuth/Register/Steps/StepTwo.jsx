@@ -63,7 +63,7 @@ const StepTwo = ({ setStep }) => {
       <label htmlFor='phone_number' id='phone_number'>
         Teléfono
         <input
-          type='tel'
+          type='number'
           name='phone_number'
           id='phone_number'
           placeholder='Ingrese su número de teléfono'
