@@ -25,3 +25,21 @@ export const createReservation = async (data) => {
     return { success: false, message: error }
   }
 }
+
+export const getReservationById = async (user_id) => {
+  try {
+    const response = await fetch(API_URL + `/user/${user_id}/`)
+
+    if (!response.ok) {
+      const error = await response.json()
+      console.log('Error response:', error)
+      return { success: false, message: error || 'Unknown error' }
+    }
+    const data = await response.json()
+    console.log('Success response:', data)
+    return { success: true, data }
+  } catch (error) {
+    console.log(error)
+    return { success: false, message: error }
+  }
+}

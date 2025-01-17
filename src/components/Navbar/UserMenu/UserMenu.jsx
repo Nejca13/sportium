@@ -72,7 +72,7 @@ const UserMenu = () => {
         </li>
         <li>
           <Link
-            href='/register'
+            href='/my_reservations'
             onClick={toggleMenu}
             className={styles.login_button}
           >

@@ -19,14 +19,6 @@ const Navbar = () => {
   const { currentUser } = useStore()
   const menuRef = useRef(null)
 
-  if (
-    pathname === '/register' ||
-    pathname === '/login' ||
-    pathname.includes('admin')
-  ) {
-    return null
-  }
-
   const toggleMenu = () => setShowMenu(!showMenu)
 
   const handleClickOutside = (event) => {
@@ -46,6 +38,14 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [showMenu])
+
+  if (
+    pathname === '/register' ||
+    pathname === '/login' ||
+    pathname.includes('admin')
+  ) {
+    return null
+  }
 
   return (
     <header className={styles.header}>
