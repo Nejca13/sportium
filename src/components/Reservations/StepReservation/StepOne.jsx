@@ -72,11 +72,17 @@ const StepOne = ({ setStep, isLoading, setIsLoading }) => {
         </select>
       </label>
       <label htmlFor='date' id='date'>
-        Seleccione fecha y horario
-        <input type='date' name='date' id='date' required />
+        Seleccione fecha
+        <input
+          type='date'
+          name='date'
+          id='date'
+          required
+          min={new Date().toISOString().split('T')[0]}
+        />
       </label>
       <label htmlFor='duration' id='duration'>
-        Duración de la reserva
+        Seleccione un horario
         <select name='horario' id='horario' defaultValue='' required>
           <option value='' disabled>
             seleccione un horario
