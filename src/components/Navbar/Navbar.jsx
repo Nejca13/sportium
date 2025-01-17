@@ -42,7 +42,6 @@ const Navbar = () => {
   if (
     pathname === '/register' ||
     pathname === '/login' ||
-    pathname.includes('admin') ||
     pathname.includes('pago')
   ) {
     return null
