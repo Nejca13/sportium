@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './Login.module.css'
 import OpenEye from '@/assets/icons/OpenEye'
 import CloseEye from '@/assets/icons/CloseEye'
@@ -43,6 +43,11 @@ const Login = () => {
         setIsLoading(false)
       })
   }
+  useEffect(() => {
+    if (currentUser) {
+      router.push('/')
+    }
+  }, [currentUser, router])
 
   return (
     <div className={styles.container}>

@@ -1,13 +1,24 @@
 'use client'
 import styles from './Register.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import StepOne from './Steps/StepOne'
 import StepTwo from './Steps/StepTwo'
 import StepThree from './Steps/StepThree'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import useStore from '@/app/store'
 
 const Register = () => {
   const [step, setStep] = useState(1)
+  const { currentUser } = useStore()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (currentUser) {
+      router.push('/')
+    }
+  }, [currentUser, router])
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
