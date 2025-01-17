@@ -116,6 +116,9 @@ async def create_preference(reservation: ReservationCreate):
     new_reservation.id = str(new_reservation.id)
     new_reservation.payment_url = payment_url
 
+    # Guardar la reserva en la base de datos
+    await new_reservation.save()
+
     new_reservation = ReservationResponse(**new_reservation.dict())
 
     return {"reservation": new_reservation, "payment_url": payment_url}

@@ -2,8 +2,7 @@ from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
-
-from app.api.models.court import Court, CourtResponse
+from app.api.models.court import CourtResponse
 from app.api.models.user import UserResponse
 
 
@@ -35,6 +34,7 @@ class Reservation(Document):
                 "date": "2025-01-14T15:00:00Z",
                 "duration": 60,
                 "status": "pending",
+                "payment_url": "https://example.com/payment/123",
                 "created_at": "2025-01-13T00:00:00Z",
             }
         }
@@ -64,6 +64,6 @@ class ReservationResponse(BaseModel):
     date: datetime
     duration: int
     status: str
+    payment_url: Optional[str] = None
     created_at: datetime
     updated_at: Optional[datetime] = Field(default=None)
-    payment_url: Optional[str] = None
