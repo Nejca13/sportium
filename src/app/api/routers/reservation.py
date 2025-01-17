@@ -138,10 +138,23 @@ async def get_reservation(reservation_id: str):
 # Filtrar reservas por fecha y cancha
 @router.get("/filter/by-date-and-court/", response_model=list)
 async def filter_reservations(date: datetime, court_id: str):
+    # Extraer día y mes de la fecha proporcionada
+    day = date.day
+    month = date.month
+
+    # Filtrar por día y mes en la base de datos
     reservations = await Reservation.find(
-        Reservation.date == date,
-        Reservation.court.id == PydanticObjectId(court_id),
+        {
+            "$expr": {
+                "$and": [
+                    {"$eq": [{"$dayOfMonth": "$date"}, day]},
+                    {"$eq": [{"$month": "$date"}, month]},
+                ]
+            },
+            "court.id": PydanticObjectId(court_id),
+        }
     ).to_list()
+
     return reservations
 
 
