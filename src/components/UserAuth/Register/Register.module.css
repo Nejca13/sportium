@@ -1,12 +1,32 @@
 .container {
   width: 100%;
-  height: 100dvh;
+  min-height: 100dvh;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   background-image: url('./../../../assets/images/login.webp');
   background-size: cover;
   background-position: center center;
+  position: relative;
+}
+
+.container .back_button {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 50px;
+}
+
+.container .back_button a {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--background);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .content {
@@ -204,4 +224,18 @@
   margin-top: -10px;
   color: red;
   margin-top: 10px;
+}
+
+@media (max-width: 500px) {
+  .container {
+    padding: 70px 0px 50px 0px;
+  }
+  .container .back_button {
+    padding: 20px 10px;
+  }
+
+  .container .back_button a {
+    font-size: 16px;
+    gap: 5px;
+  }
 }

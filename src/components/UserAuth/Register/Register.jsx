@@ -7,6 +7,7 @@ import StepThree from './Steps/StepThree'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import useStore from '@/app/store'
+import ArrowLeft from '@/assets/icons/ArrowLeft'
 
 const Register = () => {
   const [step, setStep] = useState(1)
@@ -21,6 +22,12 @@ const Register = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.back_button}>
+        <Link href={'/'}>
+          <ArrowLeft />
+          Volver al inicio
+        </Link>
+      </div>
       <div className={styles.content}>
         <div className={styles.container_form}>
           {step === 1 && <StepOne setStep={setStep} />}

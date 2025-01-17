@@ -10,6 +10,7 @@ import Spinner from '@/components/Spinner/Spinner'
 import useStore from '@/app/store'
 import imagen_logo from '@/assets/images/logos/Recurso 14_023535.png'
 import Image from 'next/image'
+import ArrowLeft from '@/assets/icons/ArrowLeft'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -53,6 +54,12 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.back_button}>
+        <Link href={'/'}>
+          <ArrowLeft />
+          Volver al inicio
+        </Link>
+      </div>
       <div className={styles.content}>
         <div className={styles.container_form}>
           <Image src={imagen_logo} alt='logo' width={200} height={200} />
