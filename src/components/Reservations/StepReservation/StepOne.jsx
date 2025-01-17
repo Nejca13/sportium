@@ -2,12 +2,17 @@ import styles from './../Reservations.module.css'
 import { useEffect, useState } from 'react'
 import Spinner from '@/components/Spinner/Spinner'
 import { getCourts } from '@/services/courts/court'
-import { createReservation } from '@/services/reservas/reservas'
+import {
+  createReservation,
+  getReservationsByCourtAndDate,
+} from '@/services/reservas/reservas'
 import useStore from '@/app/store'
 import { time } from '../time'
 const StepOne = ({ setStep, isLoading, setIsLoading }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [court, setCourt] = useState([])
+  const [curtAndDate, setCurtAndDate] = useState({})
+  const [avialableTime, setAvailableTime] = useState(time)
   const { currentUser, setCurrentReservation } = useStore()
 
   const obtenerCanchas = async () => {
@@ -22,9 +27,23 @@ const StepOne = ({ setStep, isLoading, setIsLoading }) => {
       })
   }
 
+  const deleteTimeIsNotAvailable = async (time) => {
+    if (curtAndDate.date && curtAndDate.court_id) {
+      await getReservationsByCourtAndDate(
+        curtAndDate.court_id,
+        curtAndDate.date
+      ).then((res) => {
+        console.log(res.data)
+      })
+    }
+  }
+
   useEffect(() => {
     obtenerCanchas()
-  }, [])
+    deleteTimeIsNotAvailable()
+  }, [curtAndDate])
+
+  console.log(curtAndDate)
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -60,7 +79,15 @@ const StepOne = ({ setStep, isLoading, setIsLoading }) => {
     <form onSubmit={onSubmit}>
       <label htmlFor='court_id' id='court_id'>
         Tipo de cancha
-        <select name='court_id' id='court_id' defaultValue='' required>
+        <select
+          name='court_id'
+          id='court_id'
+          defaultValue=''
+          required
+          onChange={(e) =>
+            setCurtAndDate({ ...curtAndDate, court_id: e.target.value })
+          }
+        >
           <option value='' disabled>
             Seleccione tipo de cancha
           </option>
@@ -79,9 +106,15 @@ const StepOne = ({ setStep, isLoading, setIsLoading }) => {
           id='date'
           required
           min={new Date().toISOString().split('T')[0]}
+          onChange={(e) =>
+            setCurtAndDate({
+              ...curtAndDate,
+              date: new Date(e.target.value).toISOString(),
+            })
+          }
         />
       </label>
-      <label htmlFor='duration' id='duration'>
+      <label htmlFor='horario' id='horario'>
         Seleccione un horario
         <select name='horario' id='horario' defaultValue='' required>
           <option value='' disabled>

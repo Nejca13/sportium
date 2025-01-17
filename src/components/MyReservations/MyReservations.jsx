@@ -2,8 +2,13 @@
 import { useEffect, useState } from 'react'
 import styles from './MyReservations.module.css'
 import useStore from '@/app/store'
-import { getReservationById } from '@/services/reservas/reservas'
+import {
+  deleteReservation,
+  getReservationById,
+} from '@/services/reservas/reservas'
 import Image from 'next/image'
+import Link from 'next/link'
+import Swal from 'sweetalert2'
 
 const MyReservations = () => {
   const [activeButton, setActiveButton] = useState('pending')
@@ -23,11 +28,48 @@ const MyReservations = () => {
       })
   }
 
+  const eliminarReserva = async (id) => {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará la reserva de forma permanente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    })
+
+    if (result.isConfirmed) {
+      await deleteReservation(id)
+        .then((response) => {
+          if (response.success) {
+            Swal.fire({
+              title: 'Eliminado',
+              text: 'La reserva ha sido eliminada correctamente.',
+              icon: 'success',
+              confirmButtonColor: '#3085d6',
+            })
+            reservacionesPorId(currentUser.user.id)
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo eliminar la reserva. Inténtalo nuevamente.',
+            icon: 'error',
+            confirmButtonColor: '#d33',
+          })
+        })
+    }
+  }
+
   useEffect(() => {
     if (currentUser) {
       reservacionesPorId(currentUser.user.id)
     }
-  }, [])
+  }, [currentUser])
 
   // Filtrar reservas según el estado activo
   const filteredReservations = reservations.filter(
@@ -54,75 +96,94 @@ const MyReservations = () => {
         </div>
 
         <div className={styles.container_reservations}>
-          {filteredReservations.map((reservation, index) => (
-            <div className={styles.reservation} key={index}>
-              <h3>{reservation.court.name}</h3>
-              <div className={styles.info_reservation}>
-                <Image
-                  src={reservation.court.image}
-                  alt={reservation.court.name}
-                  width={200}
-                  height={200}
-                />
-
-                <div className={styles.info}>
-                  <p>
-                    <strong>Tipo de deporte:</strong>{' '}
-                    {reservation.court.sport_type.charAt(0).toUpperCase() +
-                      reservation.court.sport_type.slice(1)}
-                  </p>
-                  <p>
-                    <strong>Ubicación:</strong> {reservation.court.location}
-                  </p>
-                  <p>
-                    <strong>Fecha y Hora:</strong>{' '}
-                    {new Date(reservation.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                    })}
-                    ,{' '}
-                    {new Date(reservation.date).toLocaleTimeString('en-US', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </p>
-                  <p>
-                    <strong>Duración del turno:</strong> {reservation.duration}{' '}
-                    min
-                  </p>
-                  <p
-                    style={{
-                      color:
-                        reservation.status === 'pending'
-                          ? '#EAB308'
-                          : 'var(--green)',
-                      fontWeight: 'semibold',
-                    }}
-                  >
-                    <strong>Estado de pago:</strong>{' '}
-                    {reservation.status.charAt(0).toUpperCase() +
-                      reservation.status.slice(1)}
-                  </p>
-                  <p>
-                    <strong>Precio total:</strong> $
-                    {reservation.court.price.toLocaleString()}
-                  </p>
-                </div>
-
+          {filteredReservations.length > 0 ? (
+            filteredReservations.map((reservation, index) => (
+              <div className={styles.reservation} key={index}>
+                <h3>{reservation.court.name}</h3>
                 <div className={styles.info_reservation}>
-                  {reservation.status === 'pending' ? (
-                    <>
-                      <button>Pagar</button>
-                      <button>Cancelar</button>
-                    </>
-                  ) : (
-                    <button className={styles.detail_button}>Detalles</button>
-                  )}
+                  <Image
+                    src={reservation.court.image}
+                    alt={reservation.court.name}
+                    width={200}
+                    height={200}
+                  />
+
+                  <div className={styles.info}>
+                    <p>
+                      <strong>Tipo de deporte:</strong>{' '}
+                      {reservation.court.sport_type.charAt(0).toUpperCase() +
+                        reservation.court.sport_type.slice(1)}
+                    </p>
+                    <p>
+                      <strong>Ubicación:</strong> {reservation.court.location}
+                    </p>
+                    <p>
+                      <strong>Fecha y Hora:</strong>{' '}
+                      {new Date(reservation.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                      })}
+                      ,{' '}
+                      {new Date(reservation.date).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </p>
+                    <p>
+                      <strong>Duración del turno:</strong>{' '}
+                      {reservation.duration} min
+                    </p>
+                    <p
+                      style={{
+                        color:
+                          reservation.status === 'pending'
+                            ? '#EAB308'
+                            : 'var(--green)',
+                        fontWeight: 'semibold',
+                      }}
+                    >
+                      <strong>Estado de pago:</strong>{' '}
+                      {reservation.status.charAt(0).toUpperCase() +
+                        reservation.status.slice(1)}
+                    </p>
+                    <p>
+                      <strong>Precio total:</strong> $
+                      {reservation.court.price.toLocaleString()}
+                    </p>
+                  </div>
+
+                  <div className={styles.info_reservation}>
+                    {reservation.status === 'pending' ? (
+                      <>
+                        <Link
+                          href={reservation.payment_url}
+                          className={styles.button_link}
+                          target='_blank'
+                        >
+                          Pagar
+                        </Link>
+                        <button
+                          className={styles.button_cancel}
+                          onClick={() => eliminarReserva(reservation._id)}
+                        >
+                          Cancelar
+                        </button>
+                      </>
+                    ) : (
+                      <button className={styles.detail_button}>Detalles</button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className={styles.no_reservations}>
+              {activeButton === 'pending'
+                ? 'No tienes reservas pendientes.'
+                : 'No tienes reservas pagadas.'}
+            </p>
+          )}
         </div>
       </div>
     </div>
