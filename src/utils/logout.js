@@ -11,7 +11,7 @@ export const logout = async () => {
         console.log(error)
         alert(error)
       }
-      window.location.href = '/login'
+      window.location.href = '/'
     } else {
       console.log(res)
     }
