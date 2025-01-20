@@ -33,8 +33,15 @@ const Login = () => {
     await login(formData)
       .then((response) => {
         if (response.success) {
-          setCurrentUser(response.data)
-          router.push('/')
+          console.log(response.data.user.is_verified)
+          if (response.data.user.is_verified === false) {
+            setErrorMessage(
+              'El correo no ha sido verificado, revisa tu bandeja de entrada o carpeta de spam'
+            )
+          } else {
+            setCurrentUser(response.data)
+            router.push('/')
+          }
         } else {
           setErrorMessage(response.message.detail)
         }
