@@ -30,10 +30,16 @@ async def recover_password(email: str):
 
     await user_exists.save()
 
+    message_html = f"""
+        <p>Se ha solicitado la recuperación de contraseña para tu cuenta.</p>
+        <p><strong>{new_password}</strong></p>
+        <p>Si no has solicitado esta recuperación, puedes ignorar este correo electrónica.</p>
+        """
+
     await send_email(
         destinatario=email,
         asunto="Recuperación de contraseña",
-        mensaje=f"Tu nueva contraseña es: {new_password}",
+        mensaje_html=message_html,
     )
 
     return {"message": "Se ha enviado un correo con la nueva contraseña"}

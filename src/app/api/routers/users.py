@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 from beanie import PydanticObjectId
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi.responses import RedirectResponse
 from app.api.init_db import BASE_URL
 from app.api.models.user import User, UserResponse, UserUpdate
 from app.api.utils.hash_password.def_hash_password import hash_password
@@ -56,11 +57,15 @@ async def create_user(user: str = Form(...), image: UploadFile = File(...)):
     # Crea el usuario en la base de datos
     try:
         new_user = await User(**user_data).create()
-
+        message_html = f"""
+            <p> Gracias por registrarte en nuestra plataforma. </p>
+            <p> Por favor, haz clic en el siguiente enlace para activar tu cuenta: </p>
+            <a href="{BASE_URL}/api/users/{new_user.id}/activate/">{BASE_URL}/api/users/{new_user.id}/activate/</a>
+           """
         await send_email(
             destinatario=new_user.email,
             asunto="Bienvenido a la plataforma",
-            mensaje=f"¡Bienvenido, {new_user.name} {new_user.last_name}! Te damos la bienvenida a la plataforma. /n Click en el siguiente enlace para activar tu cuenta: {BASE_URL}/api/users/{new_user.id}/activate/",
+            mensaje_html=message_html.format(BASE_URL=BASE_URL, new_user=new_user),
         )
         return new_user
     except Exception as e:
@@ -70,7 +75,7 @@ async def create_user(user: str = Form(...), image: UploadFile = File(...)):
 
 
 # Marcar usuario como activo
-@router.patch("/{user_id}/activate/", response_model=UserResponse)
+@router.get("/{user_id}/activate/", response_model=UserResponse)
 async def activate_user(user_id: str):
     try:
         user_id = PydanticObjectId(user_id)
@@ -84,11 +89,12 @@ async def activate_user(user_id: str):
 
     # Marca el usuario como activo
     user.is_active = True
+    user.is_verified = True
 
     # Guarda los cambios en la base de datos
     await user.save()
 
-    return user
+    return RedirectResponse(url=f"{BASE_URL}/login", status_code=302)
 
 
 @router.patch("/{user_id}/", response_model=UserResponse)
