@@ -1,8 +1,9 @@
 # CRUD de canchas
 import json
+from typing import Optional
 from beanie import PydanticObjectId
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile
-from app.api.models.court import Court
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from app.api.models.court import Court, CourtResponse, CourtUpdate
 from app.api.utils.fprint import fprint
 from app.api.utils.save_image import save_image
 
@@ -10,6 +11,26 @@ router = APIRouter(
     prefix="/courts",
     tags=["Canchas"],
 )
+
+
+async def get_update_data(
+    name: Optional[str] = Form(None),
+    sport_type: Optional[str] = Form(None),
+    location: Optional[str] = Form(None),
+    is_active: Optional[bool] = Form(None),
+    price: Optional[int] = Form(None),
+    image: Optional[UploadFile] = File(None),
+) -> dict:
+    update_data = {
+        "name": name,
+        "sport_type": sport_type,
+        "location": location,
+        "is_active": is_active,
+        "price": price,
+    }
+    if image:
+        update_data["image"] = image
+    return {k: v for k, v in update_data.items() if v is not None}
 
 
 @router.post("/create-court/")
@@ -43,20 +64,12 @@ async def get_court(court_id: str):
 
 
 @router.put("/update-court/{court_id}/")
-async def update_court(court_id: str, court: Court):
+async def update_court(court_id: str, court: dict):
     court = await Court.find_one(Court.id == PydanticObjectId(court_id))
     if not court:
         raise HTTPException(status_code=404, detail="Court not found")
+
     await court.update(court)
-    return court
-
-
-@router.delete("/delete-court/{court_id}/")
-async def delete_court(court_id: str):
-    court = await Court.find_one(Court.id == PydanticObjectId(court_id))
-    if not court:
-        raise HTTPException(status_code=404, detail="Court not found")
-    await court.delete()
     return court
 
 
@@ -77,3 +90,28 @@ async def delete_court(court_id: str):
 
     # Devolver un mensaje de confirmación
     return {"message": "Cancha eliminada correctamente"}
+
+
+@router.patch("/update-court/{court_id}/", response_model=CourtResponse)
+async def update_court(
+    court_id: PydanticObjectId,
+    update_data: dict = Depends(get_update_data),
+):
+    court = await Court.get(court_id)
+    if not court:
+        raise HTTPException(status_code=404, detail="Court not found")
+
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No fields to update")
+
+    # Procesar el archivo si se proporciona
+    if "image" in update_data:
+        image: UploadFile = update_data.pop("image")
+        folder = f"courts/{court.name}"  # Carpeta específica para cada cancha
+        update_data["image"] = await save_image(image, folder)
+
+    # Aplicar los cambios
+    await court.set(update_data)
+    await court.save()
+
+    return CourtResponse(**court.dict())

@@ -40,3 +40,12 @@ class CourtResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class CourtUpdate(BaseModel):
+    name: Optional[str] = None
+    sport_type: Optional[str] = None
+    location: Optional[str] = None
+    is_active: Optional[bool] = None
+    image: Optional[str] = None
+    price: Optional[int] = None

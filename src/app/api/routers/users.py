@@ -1,11 +1,8 @@
 from datetime import datetime
 import json
-from typing import Optional
 from beanie import PydanticObjectId
-from click import Option
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
-
-from app.api.models.user import User, UserCreate, UserResponse, UserUpdate
+from app.api.models.user import User, UserResponse, UserUpdate
 from app.api.utils.hash_password.def_hash_password import hash_password
 from app.api.utils.save_image import save_image
 
@@ -27,7 +24,6 @@ async def get_user(user_id: str):
 
 @router.post("/", response_model=UserResponse)
 async def create_user(user: str = Form(...), image: UploadFile = File(...)):
-
     # Convierte UserCreate a un diccionario y filtra campos desconocidos
     user_data = json.loads(user)
 
@@ -64,7 +60,6 @@ async def create_user(user: str = Form(...), image: UploadFile = File(...)):
 
 from fastapi import HTTPException, UploadFile, File, Form
 from beanie import PydanticObjectId
-from typing import Any
 
 
 @router.patch("/{user_id}/", response_model=UserResponse)
