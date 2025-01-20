@@ -113,6 +113,9 @@ async def create_preference(reservation: ReservationCreate):
             status_code=400, detail=f"Error al actualizar la reserva. {e}"
         )
 
+    new_reservation.court.id = str(new_reservation.court.id)
+    new_reservation.user.id = str(new_reservation.user.id)
+
     return {"reservation": new_reservation.dict(), "payment_url": payment_url}
 
 
