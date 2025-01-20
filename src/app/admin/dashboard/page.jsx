@@ -1,17 +1,53 @@
+'use client'
 import CreateCourtForm from '@/components/Admin/Courts/CreateCourtForm/CreateCourtForm'
 import styles from './page.module.css'
 import CourtList from '@/components/Admin/Courts/CourtsList/CourtList'
+import { getCourts } from '@/services/courts/court'
+import { useEffect, useState } from 'react'
+import Reservas from '@/components/Admin/Reservas/Reservas'
 
 const AdminDashboardPage = () => {
+  const [courts, setCourts] = useState([])
+  const [activeButton, setActiveButton] = useState('Canchas')
+
+  const obtenerCanchas = async () => {
+    getCourts().then((res) => {
+      if (res.success) {
+        setCourts(res.data)
+      }
+    })
+  }
+
+  useEffect(() => {
+    obtenerCanchas()
+  }, [])
+
   return (
     <div className={styles.container}>
-      <h1>Admin Dashboard</h1>
       <div className={styles.content}>
-        <div className={styles.divs}>
-          <CreateCourtForm />
+        <h2>Panel de Administración</h2>
+        <div className={styles.control_buttons}>
+          <button
+            onClick={() => setActiveButton('Canchas')}
+            className={`${styles.button} ${activeButton === 'Canchas' ? styles.active : ''}`}
+          >
+            Canchas
+          </button>
+          <button
+            onClick={() => setActiveButton('Reservas')}
+            className={`${styles.button} ${activeButton === 'Reservas' ? styles.active : ''}`}
+          >
+            Reservas
+          </button>
         </div>
-        <div className={styles.divs}>
-          <CourtList />
+        <div className={styles.control}>
+          {activeButton === 'Canchas' && (
+            <CreateCourtForm obtenerCanchas={obtenerCanchas} />
+          )}
+          {activeButton === 'Canchas' && (
+            <CourtList courts={courts} obtenerCanchas={obtenerCanchas} />
+          )}
+          {activeButton === 'Reservas' && <Reservas />}
         </div>
       </div>
     </div>
