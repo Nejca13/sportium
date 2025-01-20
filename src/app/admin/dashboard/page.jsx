@@ -31,13 +31,13 @@ const AdminDashboardPage = () => {
             onClick={() => setActiveButton('Canchas')}
             className={`${styles.button} ${activeButton === 'Canchas' ? styles.active : ''}`}
           >
-            Canchas
+            Admin Canchas
           </button>
           <button
             onClick={() => setActiveButton('Reservas')}
             className={`${styles.button} ${activeButton === 'Reservas' ? styles.active : ''}`}
           >
-            Reservas
+            Admin Reservas
           </button>
         </div>
         <div className={styles.control}>

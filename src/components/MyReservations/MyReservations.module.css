@@ -166,6 +166,10 @@
     flex-direction: column;
   }
 
+  .content h2 {
+    display: none;
+  }
+
   .info_reservation img {
     min-width: 100%;
     width: 100%;
