@@ -7,6 +7,7 @@ from .routers.mercadopago import router as mercado_pago
 from .routers.reservation import router as reservation
 from .routers.court import router as courts
 from .routers.logout import router as logout
+from .routers.password_recovery import router as password_recovery
 
 
 app = FastAPI()
@@ -23,6 +24,7 @@ app.include_router(courts, tags=["Canchas"])
 app.include_router(login, tags=["Login"])
 app.include_router(logout, tags=["Logout"])
 app.include_router(mercado_pago, tags=["Mercado Pago"])
+app.include_router(password_recovery, tags=["Recuperación de contraseña"])
 
 
 app.mount("/media", StaticFiles(directory="media"), name="media")

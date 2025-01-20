@@ -116,6 +116,13 @@ async def create_preference(reservation: ReservationCreate):
     return {"reservation": new_reservation.dict(), "payment_url": payment_url}
 
 
+# Listar todas las reservas
+@router.get("/", response_model=list)
+async def get_reservations():
+    reservations = await Reservation.find().to_list()
+    return reservations
+
+
 # Listar las reservas de un usuario
 @router.get("/user/{user_id}/", response_model=list)
 async def get_user_reservations(user_id: str):
