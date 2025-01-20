@@ -90,3 +90,38 @@ export const deleteCourt = async (court_id) => {
     }
   }
 }
+
+export const updateCourt = async (court_id, data) => {
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  }
+
+  try {
+    const response = await fetch(
+      API_URL + `/update-court/${court_id}/`,
+      options
+    )
+    if (!response) {
+      return {
+        success: false,
+        error: 'Error al actualizar la cancha',
+      }
+    } else {
+      const data = await response.json()
+      return {
+        success: true,
+        data: data,
+      }
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      success: false,
+      error: error,
+    }
+  }
+}

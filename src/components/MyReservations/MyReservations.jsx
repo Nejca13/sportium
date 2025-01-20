@@ -172,7 +172,7 @@ const MyReservations = () => {
                         </button>
                       </>
                     ) : (
-                      <button className={styles.detail_button}>Detalles</button>
+                      ''
                     )}
                   </div>
                 </div>

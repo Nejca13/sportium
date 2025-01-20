@@ -122,6 +122,19 @@
   gap: 10px;
 }
 
+.court_information .title_and_button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.court_information .title_and_button button {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  font-family: inherit;
+}
+
 .user_information h3,
 .court_information h3,
 .detail_information h3 {

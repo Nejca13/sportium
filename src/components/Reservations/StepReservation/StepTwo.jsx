@@ -4,9 +4,14 @@ import useStore from '@/app/store'
 import Image from 'next/image'
 import Link from 'next/link'
 import MercadoPago from '@/assets/icons/MercadoPago'
+import Edit from '@/assets/icons/Edit'
 
-const StepTwo = () => {
+const StepTwo = ({ setStep }) => {
   const { currentReservation } = useStore()
+
+  const handleEdit = () => {
+    setStep(1)
+  }
 
   if (!currentReservation) {
     return (
@@ -41,7 +46,12 @@ const StepTwo = () => {
         </div>
 
         <div className={styles.court_information}>
-          <h3>Infomación de la cancha</h3>
+          <div className={styles.title_and_button}>
+            <h3>Infomación de la cancha</h3>
+            <button onClick={handleEdit}>
+              <Edit /> Editar
+            </button>
+          </div>
           <div className={styles.court_info}>
             <div className={styles.court}>
               <span>{currentReservation?.reservation.court?.name} </span>

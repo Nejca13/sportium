@@ -1,16 +1,28 @@
 'use client'
 import styles from './UpdateFormCourt.module.css'
 import Spinner from '@/components/Spinner/Spinner'
+import { updateCourt } from '@/services/courts/court'
 import Image from 'next/image'
 import { useState } from 'react'
 
 const UpdateFormCourt = ({ courtToUpdate }) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [currentImage, setCurrentImage] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
     const formData = Object.fromEntries(new FormData(e.target))
-    console.log(formData)
+
+    await updateCourt(courtToUpdate._id, formData)
+      .then((response) => {
+        console.log(response)
+        setIsLoading(false)
+      })
+      .catch((error) => {
+        console.log(error)
+        setIsLoading(false)
+      })
   }
 
   return (
@@ -34,10 +46,12 @@ const UpdateFormCourt = ({ courtToUpdate }) => {
             name='image'
             id='image'
             accept='image/jpeg, image/png, image/webp, image/jpg'
-            // defaultValue={courtToUpdate.image}
+            onChange={(e) =>
+              setCurrentImage(URL.createObjectURL(e.target.files[0]))
+            }
           />
           <Image
-            src={courtToUpdate?.image}
+            src={currentImage ? currentImage : courtToUpdate?.image}
             alt='Imagen de la cancha'
             width={50}
             height={50}
