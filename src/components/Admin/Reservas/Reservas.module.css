@@ -1,5 +1,14 @@
+.container {
+  max-width: 1200px;
+  overflow-x: auto;
+  width: 100%;
+  border-radius: 10px;
+}
+
 .container table {
   width: 100%;
+  min-width: 860px;
+  min-height: 500px;
   border-collapse: collapse;
   font-family: inherit;
   background-color: white;
@@ -35,10 +44,7 @@
 
 .container table td {
   border-bottom: 1px solid #ddd;
-  max-width: 200px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   font-size: 13px;
 }
 
@@ -53,4 +59,20 @@
 
 .container table tbody td {
   border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 500px) {
+  .container table {
+    width: 100%;
+    min-width: 860px;
+    min-height: 390px;
+    border-collapse: collapse;
+    font-family: inherit;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .container table tbody {
+    max-height: 390px;
+  }
 }

@@ -40,7 +40,16 @@ const Reservas = () => {
           {reservations.length > 0 ? (
             reservations.map((reservation, index) => (
               <tr key={index}>
-                <td>
+                <td
+                  style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                >
+                  <Image
+                    src={reservation.user.img}
+                    alt={reservation.user.name}
+                    width={30}
+                    height={30}
+                    style={{ borderRadius: '50%' }}
+                  />
                   {reservation.user.name} {reservation.user.last_name}
                 </td>
                 <td>{reservation.date}</td>
