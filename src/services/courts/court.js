@@ -59,3 +59,34 @@ export const getCourts = async () => {
     }
   }
 }
+
+export const deleteCourt = async (court_id) => {
+  const options = {
+    method: 'DELETE',
+  }
+
+  try {
+    const response = await fetch(
+      API_URL + `/delete-court/${court_id}/`,
+      options
+    )
+    if (!response) {
+      return {
+        success: false,
+        error: 'Error al elminar la cancha',
+      }
+    } else {
+      const data = await response.json()
+      return {
+        success: true,
+        data: data,
+      }
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      success: false,
+      error: error,
+    }
+  }
+}
