@@ -86,7 +86,11 @@ const CourtList = ({ courts, obtenerCanchas }) => {
         </tbody>
       </table>
       <Modal isModalOpen={isModalOpen} onClose={closeModal}>
-        <UpdateFormCourt courtToUpdate={courtToUpdate} />
+        <UpdateFormCourt
+          courtToUpdate={courtToUpdate}
+          closeModal={closeModal}
+          obtenerCanchas={obtenerCanchas}
+        />
       </Modal>
     </div>
   )

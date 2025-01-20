@@ -1,26 +1,55 @@
 'use client'
+import useStore from '@/app/store'
 import styles from './UpdateFormCourt.module.css'
 import Spinner from '@/components/Spinner/Spinner'
 import { updateCourt } from '@/services/courts/court'
 import Image from 'next/image'
 import { useState } from 'react'
 
-const UpdateFormCourt = ({ courtToUpdate }) => {
+const UpdateFormCourt = ({ courtToUpdate, closeModal, obtenerCanchas }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [currentImage, setCurrentImage] = useState(null)
+  const { currentUser } = useStore()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const formData = Object.fromEntries(new FormData(e.target))
+    const formData = new FormData(e.target)
+
+    // Quitamos los campos que no cambiaron para no actualizarlos
+
+    if (formData.get('name') === courtToUpdate.name) {
+      formData.delete('name')
+    }
+
+    if (formData.get('image').size === 0) {
+      formData.delete('image')
+    }
+
+    if (formData.get('sport_type') === courtToUpdate.type_sport) {
+      formData.delete('sport_type')
+    }
+
+    if (formData.get('location') === courtToUpdate.location) {
+      formData.delete('location')
+    }
+
+    if (formData.get('price') === courtToUpdate.price) {
+      formData.delete('price')
+    }
+
+    console.log(Object.fromEntries(formData))
 
     await updateCourt(courtToUpdate._id, formData)
       .then((response) => {
-        console.log(response)
-        setIsLoading(false)
+        closeModal()
+        obtenerCanchas()
       })
       .catch((error) => {
         console.log(error)
+        setIsLoading(false)
+      })
+      .finally(() => {
         setIsLoading(false)
       })
   }

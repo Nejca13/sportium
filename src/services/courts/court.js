@@ -93,11 +93,8 @@ export const deleteCourt = async (court_id) => {
 
 export const updateCourt = async (court_id, data) => {
   const options = {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
+    method: 'PATCH',
+    body: data,
   }
 
   try {

@@ -42,10 +42,6 @@
   font-size: 13px;
 }
 
-.container table th:nth-of-type(3) {
-  text-align: center;
-}
-
 .container table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
@@ -57,8 +53,4 @@
 
 .container table tbody td {
   border-bottom: 1px solid #ddd;
-}
-
-.container table tbody td:last-child {
-  text-align: center;
 }
