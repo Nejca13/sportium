@@ -11,9 +11,9 @@ const StepTwo = ({ setStep }) => {
   const { currentReservation } = useStore()
 
   const handleEdit = async (id_reserva) => {
+    console.log(id_reserva)
     await deleteReservation(id_reserva).then((response) => {
       if (response.success) {
-        console.log(response.data)
         setStep(1)
       }
     })
@@ -55,9 +55,7 @@ const StepTwo = ({ setStep }) => {
           <div className={styles.title_and_button}>
             <h3>Infomación de la cancha</h3>
             <button
-              onClick={() =>
-                handleEdit(currentReservation?.reservation.court.id)
-              }
+              onClick={() => handleEdit(currentReservation?.reservation.id)}
             >
               <Edit /> Editar
             </button>
