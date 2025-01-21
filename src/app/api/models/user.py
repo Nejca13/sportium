@@ -60,6 +60,7 @@ class UserCreate(BaseModel):
 # Modelo para respuesta pública
 class UserResponse(BaseModel):
     id: PydanticObjectId
+    role: str
     name: str
     img: Optional[str]
     last_name: str
