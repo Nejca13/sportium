@@ -62,7 +62,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .container_form form label {
@@ -116,10 +116,42 @@
   padding: 0 15px;
 }
 
+.recovery_button {
+  width: 100%;
+  text-align: end;
+  font-size: 13px;
+  font-family: inherit;
+}
+
 .container_form .link {
   width: 100%;
   text-align: center;
   font-size: 13px;
+  font-family: inherit;
+}
+
+.info {
+  font-size: 15px;
+  background: #c6f6d5;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  border-radius: 6px;
+}
+
+.info span {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info p {
+  font-size: 13px;
+  line-height: 25px;
 }
 
 .container_form small {
@@ -127,6 +159,11 @@
   margin-top: -10px;
   line-height: 18px;
   color: red;
+}
+
+.backLogin {
+  font-family: inherit;
+  font-size: 13px;
 }
 
 @media (max-width: 500px) {

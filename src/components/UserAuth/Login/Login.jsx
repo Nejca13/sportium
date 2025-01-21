@@ -11,11 +11,14 @@ import useStore from '@/app/store'
 import imagen_logo from '@/assets/images/logos/Recurso 14_023535.png'
 import Image from 'next/image'
 import ArrowLeft from '@/assets/icons/ArrowLeft'
+import Alert from '@/assets/icons/Alert'
+import Recovery from './Recovery/Recovery'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [showRecovery, setShowRecovery] = useState(false)
   const { currentUser, setCurrentUser } = useStore()
 
   const router = useRouter()
@@ -70,52 +73,66 @@ const Login = () => {
       <div className={styles.content}>
         <div className={styles.container_form}>
           <Image src={imagen_logo} alt='logo' width={200} height={200} />
-          <form onSubmit={onSubmit}>
-            <label htmlFor='username' id='username'>
-              Correo Electrónico
-              <input
-                type='email'
-                name='username'
-                id='username'
-                placeholder='Correo Electrónico'
-                required
-                autoComplete='email'
-              />
-            </label>
-            <label htmlFor='password' id='password'>
-              Contraseña
-              <div className={styles.input_container}>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name='password'
-                  id='password'
-                  placeholder='Contraseña'
-                  required
-                />
-                <button
-                  type='button'
-                  className={styles.togglePassword}
-                  onClick={handleTogglePassword}
-                >
-                  {showPassword ? (
-                    <OpenEye width='20px' height='20px' />
-                  ) : (
-                    <CloseEye width='20px' height='20px' />
-                  )}
-                </button>
-              </div>
-            </label>
+          {!showRecovery ? (
+            <>
+              <form onSubmit={onSubmit}>
+                <label htmlFor='username' id='username'>
+                  Correo Electrónico
+                  <input
+                    type='email'
+                    name='username'
+                    id='username'
+                    placeholder='Correo Electrónico'
+                    required
+                    autoComplete='email'
+                  />
+                </label>
+                <label htmlFor='password' id='password'>
+                  Contraseña
+                  <div className={styles.input_container}>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      name='password'
+                      id='password'
+                      placeholder='Contraseña'
+                      required
+                    />
+                    <button
+                      type='button'
+                      className={styles.togglePassword}
+                      onClick={handleTogglePassword}
+                    >
+                      {showPassword ? (
+                        <OpenEye width='20px' height='20px' />
+                      ) : (
+                        <CloseEye width='20px' height='20px' />
+                      )}
+                    </button>
+                  </div>
+                  <button
+                    className={styles.recovery_button}
+                    onClick={(e) => {
+                      e.preventDefault(), setShowRecovery(true)
+                    }}
+                  >
+                    ¿Olvidaste tu contraseña?
+                  </button>
+                </label>
 
-            <button type='submit' className={styles.button}>
-              {isLoading ? <Spinner /> : 'Ingresar'}
-            </button>
-            {errorMessage && (
-              <small className={styles.error}>{errorMessage}</small>
-            )}
-          </form>
-          <Link href={'/register'} className={styles.link}>
-            ¿No tienes una cuenta? Registrarse
-          </Link>
+                <button type='submit' className={styles.button}>
+                  {isLoading ? <Spinner /> : 'Ingresar'}
+                </button>
+                {errorMessage && (
+                  <small className={styles.error}>{errorMessage}</small>
+                )}
+              </form>
+              <Link href={'/register'} className={styles.link}>
+                ¿No tienes una cuenta? Registrarse
+              </Link>
+            </>
+          ) : (
+            <Recovery setShowRecovery={setShowRecovery} />
+          )}
         </div>
       </div>
     </div>

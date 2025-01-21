@@ -11,7 +11,7 @@ const StepThree = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push('/login')
-    }, 5000)
+    }, 7000)
 
     return () => clearTimeout(timer)
   }, [router])
