@@ -115,6 +115,7 @@ async def create_preference(reservation: ReservationCreate):
 
     new_reservation.court.id = str(new_reservation.court.id)
     new_reservation.user.id = str(new_reservation.user.id)
+    new_reservation.id = str(new_reservation.id)
 
     return {"reservation": new_reservation.dict(), "payment_url": payment_url}
 
