@@ -6,16 +6,6 @@ import checket from '@/assets/images/checket.gif'
 import Alert from '@/assets/icons/Alert'
 
 const StepThree = () => {
-  const router = useRouter()
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push('/login')
-    }, 7000)
-
-    return () => clearTimeout(timer)
-  }, [router])
-
   return (
     <div className={styles.endStep}>
       <Image src={checket} alt='checket' width={400} height={400} />
@@ -32,6 +22,7 @@ const StepThree = () => {
           </p>
         </div>
       </div>
+      <button className={styles.button_login}>Iniciar Sesión</button>
     </div>
   )
 }
