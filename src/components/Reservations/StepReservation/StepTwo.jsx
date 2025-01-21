@@ -5,12 +5,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import MercadoPago from '@/assets/icons/MercadoPago'
 import Edit from '@/assets/icons/Edit'
+import { deleteReservation } from '@/services/reservas/reservas'
 
 const StepTwo = ({ setStep }) => {
   const { currentReservation } = useStore()
 
-  const handleEdit = () => {
-    setStep(1)
+  const handleEdit = async (id_reserva) => {
+    await deleteReservation(id_reserva).then((response) => {
+      if (response.success) {
+        console.log(response.data)
+        setStep(1)
+      }
+    })
   }
 
   if (!currentReservation) {
@@ -48,7 +54,11 @@ const StepTwo = ({ setStep }) => {
         <div className={styles.court_information}>
           <div className={styles.title_and_button}>
             <h3>Infomación de la cancha</h3>
-            <button onClick={handleEdit}>
+            <button
+              onClick={() =>
+                handleEdit(currentReservation?.reservation.court.id)
+              }
+            >
               <Edit /> Editar
             </button>
           </div>
