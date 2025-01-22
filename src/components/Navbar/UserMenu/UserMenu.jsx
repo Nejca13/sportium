@@ -10,6 +10,7 @@ import CalendarCheck from '@/assets/icons/CalendarCheck'
 import Logout from '@/assets/icons/Logout'
 import { usePathname, useRouter } from 'next/navigation'
 import Home from '@/assets/icons/Home'
+import ChangePasswordIcon from '@/assets/icons/ChangePasswordIcon'
 
 const UserMenu = () => {
   const [showMenu, setShowMenu] = useState(false)
@@ -61,6 +62,15 @@ const UserMenu = () => {
             </Link>
           </li>
         )}
+        <li>
+          <Link
+            href='/change-password'
+            onClick={toggleMenu}
+            className={styles.login_button}
+          >
+            <ChangePasswordIcon /> Cambiar contraseña
+          </Link>
+        </li>
         <li>
           <Link
             href='/reservations'
