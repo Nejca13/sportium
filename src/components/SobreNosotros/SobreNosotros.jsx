@@ -9,10 +9,11 @@ const SobreNosotros = () => {
         <Image src={img_logo} alt='sobre nosotros' width={400} height={400} />
         <div className={styles.text}>
           <p>
-            En Sportium, nos apasiona ofrecerte la mejor experiencia deportiva.
-            Somos una plataforma dedicada al alquiler de canchas de fútbol y
-            pádel, diseñada para que puedas disfrutar de tus partidos,
-            entrenamientos y eventos de forma rápida, fácil y confiable.
+            En <strong style={{ color: 'var(--green)' }}>Sportium</strong>, nos
+            apasiona ofrecerte la mejor experiencia deportiva. Somos una
+            plataforma dedicada al alquiler de canchas de fútbol y pádel,
+            diseñada para que puedas disfrutar de tus partidos, entrenamientos y
+            eventos de forma rápida, fácil y confiable.
           </p>
 
           <p>

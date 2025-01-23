@@ -14,7 +14,7 @@
 
 .content {
   max-width: 1200px;
-  width: 100%;
+  width: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,4 +37,30 @@
 
 .text p {
   color: #666666;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 50px 0px;
+    background-image: none;
+  }
+  .content {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .content img {
+    width: 200px;
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .content p {
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .content p:nth-of-type(2) {
+    display: none;
+  }
 }
