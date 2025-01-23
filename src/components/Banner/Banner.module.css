@@ -11,7 +11,7 @@
 }
 
 .content {
-  width: 100%;
+  width: 90%;
   max-width: 1000px;
   display: flex;
   flex-direction: column;
@@ -29,9 +29,23 @@
 
 .content p {
   font-size: 20px;
-  line-height: 30px;
+  line-height: 35px;
   font-weight: 600;
   color: white;
   text-wrap: balance;
   text-align: center;
+}
+
+@media (max-width: 500px) {
+  .container {
+    background-position: right;
+  }
+  .content h2 {
+    font-size: 25px;
+  }
+
+  .content p {
+    font-size: 18px;
+    line-height: 30px;
+  }
 }

@@ -62,15 +62,7 @@ const UserMenu = () => {
             </Link>
           </li>
         )}
-        <li>
-          <Link
-            href='/change-password'
-            onClick={toggleMenu}
-            className={styles.login_button}
-          >
-            <ChangePasswordIcon /> Cambiar contraseña
-          </Link>
-        </li>
+
         <li>
           <Link
             href='/reservations'
@@ -88,6 +80,15 @@ const UserMenu = () => {
           >
             <CalendarCheck />
             Mis reservas
+          </Link>
+        </li>
+        <li>
+          <Link
+            href='/change-password'
+            onClick={toggleMenu}
+            className={styles.login_button}
+          >
+            <ChangePasswordIcon /> Cambiar contraseña
           </Link>
         </li>
         <li>

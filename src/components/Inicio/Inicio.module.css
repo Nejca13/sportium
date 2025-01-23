@@ -1,12 +1,12 @@
 .container {
   width: 100%;
   height: auto;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
   position: relative;
-  padding: 300px 0px 250px 0px;
 }
 
 .image {
@@ -109,6 +109,9 @@
 }
 
 @media (max-width: 500px) {
+  .container {
+    min-height: 90vh;
+  }
   .image {
     background-position: 20% top;
   }

@@ -8,9 +8,9 @@ const Banner = () => {
       <div className={styles.content}>
         <h2>Tu Partido, Tu Lugar</h2>
         <p>
-          Encuentra y reserva fácilmente canchas de fútbol y pádel en Argentina.
-          Horarios flexibles, espacios de calidad y todo listo para que
-          disfrutes tu juego.
+          Encuentra y reserva fácilmente canchas de fútbol y pádel. Horarios
+          flexibles, espacios de calidad y todo listo para que disfrutes tu
+          juego.
         </p>
       </div>
     </div>
