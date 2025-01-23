@@ -25,15 +25,16 @@ const ChangePasswordPage = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <form onSubmit={handleSubmit} className={styles.container_form}>
-          <label htmlFor='password' id='password'>
+          <label htmlFor='old-password' id='old-password'>
             Contraseña actual
             <div className={styles.input_container}>
               <input
                 type={showPassword ? 'text' : 'password'}
-                name='password'
-                id='password'
+                name='old-password'
+                id='old-password'
                 placeholder='Contraseña'
                 required
+                minLength={8}
               />
               <button
                 type='button'
@@ -48,15 +49,16 @@ const ChangePasswordPage = () => {
               </button>
             </div>
           </label>
-          <label htmlFor='confirm-password' id='confirm-password'>
-            Repita la contraseña
+          <label htmlFor='password' id='password'>
+            Nueva contraseña
             <div className={styles.input_container}>
               <input
                 type={showPassword ? 'text' : 'password'}
-                name='confirm-password'
-                id='confirm-password'
+                name='password'
+                id='password'
                 placeholder='Confirmar contraseña'
                 required
+                minLength={8}
               />
               <button
                 type='button'
@@ -72,15 +74,16 @@ const ChangePasswordPage = () => {
             </div>
           </label>
 
-          <label htmlFor='new-password' id='new-password'>
-            Nueva contraseña
+          <label htmlFor='confirm-password' id='confirm-password'>
+            Repita contraseña
             <div className={styles.input_container}>
               <input
                 type={showPassword ? 'text' : 'password'}
-                name='new-password'
-                id='new-password'
+                name='confirm-password'
+                id='confirm-password'
                 placeholder='Nueva contraseña'
                 required
+                minLength={8}
               />
               <button
                 type='button'
