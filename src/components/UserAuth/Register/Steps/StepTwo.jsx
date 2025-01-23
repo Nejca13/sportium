@@ -36,7 +36,7 @@ const StepTwo = ({ setStep }) => {
 
     const formData = Object.fromEntries(new FormData(e.target))
     if (formData.password !== formData['confirm-password']) {
-      alert('Las contraseñas no coinciden')
+      setErrorMessage('Las contraseñas no coinciden')
       return
     }
 
