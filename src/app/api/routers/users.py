@@ -155,7 +155,12 @@ async def delete_user(user_id: str):
 # Endpoint para actualizar solo la contraseña
 @router.patch("/update-password/{user_id}/", response_model=UserResponse)
 async def update_password(user_id: str, password: str = Form(...)):
-    user = await User.find_one(User.id == PydanticObjectId(user_id))
+    try:
+        user_id = PydanticObjectId(user_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="ID de usuario inválido")
+
+    user = await User.find_one(User.id == user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     user.password = hash_password(password)
