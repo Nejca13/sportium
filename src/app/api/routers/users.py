@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 from beanie import PydanticObjectId
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
-from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from app.api.init_db import BASE_URL
 from app.api.models.user import User, UserResponse, UserUpdate
 from app.api.utils.hash_password.def_hash_password import hash_password
@@ -147,6 +147,17 @@ async def update_user(
 async def delete_user(user_id: str):
     user = await User.find_one(User.id == PydanticObjectId(user_id))
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
     await user.delete()
     return user
+
+
+# Endpoint para actualizar solo la contraseña
+@router.patch("/update-password/{user_id}/", response_model=UserResponse)
+async def update_password(user_id: str, password: str = Form(...)):
+    user = await User.find_one(User.id == PydanticObjectId(user_id))
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    user.password = hash_password(password)
+    await user.save()
+    return JSONResponse(content={"message": "Contraseña actualizada correctamente"})
