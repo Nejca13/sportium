@@ -12,7 +12,7 @@
 
 .carousel {
   width: 90%;
-  max-width: 1000px;
+  max-width: 700px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -29,19 +29,18 @@
 
 .slide h2 {
   font-size: 30px;
-  font-weight: 800;
+  font-weight: 700;
   color: white;
   text-transform: uppercase;
   text-align: center;
 }
 
 .slide p {
-  font-size: 20px;
-  line-height: 30px;
-  font-weight: 600;
   color: white;
-  text-wrap: balance;
+  font-size: 18px;
+  line-height: 30px;
   text-align: center;
+  text-wrap: balance;
 }
 
 @media (max-width: 500px) {

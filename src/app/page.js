@@ -4,6 +4,7 @@ import styles from './page.module.css'
 import Marcas from '@/components/Marcas/Marcas'
 import Banner from '@/components/Banner/Banner'
 import SobreNosotros from '@/components/SobreNosotros/SobreNosotros'
+import Contacto from '@/components/Contacto/Contacto'
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Marcas />
       <Banner />
       <SobreNosotros />
+      {/* <Contacto /> */}
     </div>
   )
 }
