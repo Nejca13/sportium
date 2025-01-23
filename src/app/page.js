@@ -14,7 +14,7 @@ export default function Home() {
       <Marcas />
       <Banner />
       <SobreNosotros />
-      {/* <Contacto /> */}
+      <Contacto />
     </div>
   )
 }

@@ -1,0 +1,160 @@
+.container {
+  width: 100%;
+  height: auto;
+  min-height: 40dvh;
+  background-image: url('./../../assets/images/svgBanner.svg');
+  background-size: cover;
+  padding: 50px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+.title {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.title h2 {
+  width: 100%;
+  font-weight: 700;
+  font-size: 30px;
+  text-align: center;
+  text-transform: uppercase;
+  color: white;
+}
+
+.title p {
+  color: rgb(92, 92, 92);
+  font-size: 18px;
+  line-height: 30px;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.content {
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.content form {
+  width: 100%;
+  max-width: 500px;
+  min-width: 500px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 30px;
+  justify-content: space-between;
+  gap: 20px;
+}
+.content form h3 {
+  text-transform: uppercase;
+  font-size: 25px;
+  color: #414141;
+}
+
+.content form label {
+  width: 100%;
+}
+
+.content form label input {
+  border: 1px solid rgb(214, 214, 214);
+  width: 100%;
+  padding: 15px;
+  font-family: inherit;
+}
+
+.content form label textarea {
+  border: 1px solid rgb(214, 214, 214);
+  width: 100%;
+  padding: 15px;
+  font-family: inherit;
+  height: 150px;
+}
+
+.content form button {
+  width: 100%;
+  background: var(--green);
+  color: var(--background);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 15px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info {
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 30px;
+}
+
+.info h3 {
+  font-size: 25px;
+  text-transform: uppercase;
+  color: var(--green);
+  line-height: 35px;
+}
+
+.info p {
+  color: rgb(92, 92, 92);
+  font-size: 16px;
+  line-height: 30px;
+}
+
+.info .info_contacto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.info .info_contacto_item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgb(92, 92, 92);
+  font-size: 14px;
+  line-height: 30px;
+}
+
+@media (max-width: 1000px) {
+  .container {
+    gap: 20px;
+  }
+  .content {
+    flex-direction: column-reverse;
+  }
+  .content form {
+    max-width: 100%;
+    min-width: 100%;
+    display: none;
+  }
+  .info {
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .map {
+    max-width: 100%;
+    min-width: 100%;
+  }
+}

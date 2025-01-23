@@ -18,7 +18,6 @@ const ChangePasswordPage = () => {
     setIsLoading(true)
 
     const formData = Object.fromEntries(new FormData(e.target))
-    console.log(formData)
   }
 
   return (
