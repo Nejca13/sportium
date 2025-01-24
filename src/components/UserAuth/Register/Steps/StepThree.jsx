@@ -4,6 +4,7 @@ import Image from 'next/image'
 import styles from './../Register.module.css'
 import checket from '@/assets/images/checket.gif'
 import Alert from '@/assets/icons/Alert'
+import Link from 'next/link'
 
 const StepThree = () => {
   return (
@@ -22,7 +23,7 @@ const StepThree = () => {
           </p>
         </div>
       </div>
-      <button className={styles.button_login}>Iniciar Sesión</button>
+      <Link href={'/login'} className={styles.button_login}>Iniciar Sesión</Link>
     </div>
   )
 }

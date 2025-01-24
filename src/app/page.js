@@ -5,16 +5,17 @@ import Marcas from '@/components/Marcas/Marcas'
 import Banner from '@/components/Banner/Banner'
 import SobreNosotros from '@/components/SobreNosotros/SobreNosotros'
 import Contacto from '@/components/Contacto/Contacto'
+import Footer from '@/components/Footer/Footer'
 
 export default function Home() {
   return (
-    <div className={styles.page}>
+    <main className={styles.page}>
       <Inicio />
       <ButtonWhatsapp />
       <Marcas />
       <Banner />
       <SobreNosotros />
-      <Contacto />
-    </div>
+      <Footer/>
+    </main>
   )
 }
