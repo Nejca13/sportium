@@ -158,7 +158,7 @@ const MyReservations = () => {
                     {reservation.status === 'pending' ? (
                       <>
                         <Link
-                          href={reservation.payment_url}
+                          href={reservation?.payment_url}
                           className={styles.button_link}
                           target='_blank'
                         >

@@ -26,6 +26,15 @@ const Reservas = () => {
   }, [])
   return (
     <div className={styles.container}>
+      <label className={styles.input_container}>
+        Seleccione fecha
+        <input
+          type="date"
+          name='date'
+          id='date'
+          placeholder='Fecha'
+        />
+      </label>
       <table className={styles.table}>
         <thead>
           <tr>
