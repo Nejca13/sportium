@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 import os
 from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException
@@ -178,3 +178,27 @@ async def cancel_reservation(reservation_id: str):
         raise HTTPException(status_code=404, detail="Reservation not found")
     await reservation.delete()
     return reservation
+
+
+# Listar reservas por fecha
+@router.get("/filter/by-date/", response_model=list)
+async def filter_reservations_by_date(date: date):
+    # Extraer dia y mes de la fecha proporcionada
+    day = date.day
+    month = date.month
+    year = date.year
+
+    # Filtrar por dia y mes en la base de datos
+    reservations = await Reservation.find(
+        {
+            "$expr": {
+                "$and": [
+                    {"$eq": [{"$dayOfMonth": "$date"}, day]},
+                    {"$eq": [{"$month": "$date"}, month]},
+                    {"$eq": [{"$year": "$date"}, year]},
+                ]
+            }
+        }
+    ).to_list()
+
+    return reservations
