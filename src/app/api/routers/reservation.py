@@ -53,6 +53,7 @@ async def create_preference(reservation: ReservationCreate):
                 preferred_sports=user.preferred_sports,
                 is_active=user.is_active,
                 is_verified=user.is_verified,
+                role=user.role,
             ),
             court=CourtResponse(
                 id=court.id,
