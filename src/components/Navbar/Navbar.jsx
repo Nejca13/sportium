@@ -52,14 +52,14 @@ const Navbar = () => {
       <div className={styles.banner}>
         <div className={styles.content_banner}>
           <Link
-            href='https://wa.me/5491166344522'
+            href='https://wa.me/+5491138057161'
             target='_blank'
             className={styles.whatsapp}
           >
             <i>
               <Whatsapp width='20px' height='20px' />
             </i>
-            +54 9 3543 57-9562
+            +54 9 11 3805-7161
           </Link>
 
           <div className={styles.social}>

@@ -39,6 +39,15 @@
   color: #666666;
 }
 
+@media (max-width: 1440px) {
+  .container {
+    padding: 50px 0px;
+    background-image: none;
+  }
+}
+
+
+
 @media (max-width: 768px) {
   .container {
     padding: 50px 0px;

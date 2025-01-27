@@ -13,7 +13,7 @@ const PagoFallidoPage = () => {
       setContdown(contdown - 1)
     }, 1000)
     if (contdown === 0) {
-      router.push('/my_reservations')
+      router.push('/')
     }
     return () => clearTimeout(timer)
   }, [contdown])

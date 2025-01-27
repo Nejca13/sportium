@@ -5,7 +5,7 @@ const ButtonWhatsapp = () => {
   return (
     <div className={styles.container_button}>
       <Link
-        href='https://wa.me/5491166344522'
+        href='https://wa.me/+5491138057161'
         target='_blank'
         rel='noopener noreferrer'
         className={styles.btn}

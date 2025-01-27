@@ -26,25 +26,26 @@ const Footer = () => {
           <div className={styles.list}>
             <h5>Información</h5>
             <ul>
-              <Link href='https://wa.me/+541166344522' target='_blank'>
+              <Link href='https://wa.me/+5491138057161' target='_blank'>
                 <li>
                   <Mobile color='white' />
-                  +541166344522
+                  +54 9 11 3805-7161
                 </li>
               </Link>
-              <Link href='mailto:hernancarrazan33@gmail.com' target='_blank'>
+              <Link href='mailto:infosportium@gmail.com' target='_blank'>
                 <li>
                   <Email color='white' />
-                  sportium@gmail.com
+                  infosportium@gmail.com
                 </li>
               </Link>
               <Link
-                href='https://www.google.com/maps/place/Juan+B.+Justo+130,+Isidro+Casanova'
-                target='_blank'
+                href="https://www.google.com/maps/place/34%C2%B034'30.7%22S+58%C2%B023'52.0%22W/@-34.575188,-58.397771,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-34.575188!4d-58.397771?entry=ttu&g_ep=EgoyMDI1MDEyMS4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <li>
                   <Location color='white' />
-                  Av. san juan 3183, CABA.
+                  Sportium Ubicación
                 </li>
               </Link>
               <li>
@@ -72,7 +73,11 @@ const Footer = () => {
                   <Instagram color='white' />
                 </span>
               </Link>
-              <Link href='https://wa.me/+541166344522' target='_blank'>
+              <Link
+      href="https://wa.me/5491138057161"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
                 <span>
                   <Whatsapp color='white' />
                 </span>
