@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('./../../../assets/images/login.webp');
+  background-image: url("./../../../assets/images/login.webp");
   background-size: cover;
   background-position: center center;
   position: relative;
@@ -118,7 +118,7 @@
 
 .recovery_button {
   width: 100%;
-  text-align: end;
+  text-align: center;
   font-size: 13px;
   font-family: inherit;
 }
